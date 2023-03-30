@@ -1,6 +1,7 @@
 package com.example.seefood.screens.camera
 
 import android.content.Context
+import android.net.Uri
 import android.util.Log
 import android.view.ViewGroup
 import androidx.camera.core.*
@@ -11,8 +12,7 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.Button
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,9 +22,9 @@ import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
-import androidx.core.net.toUri
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.seefood.ui.theme.ButtonBackground
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
 import kotlinx.coroutines.Dispatchers
@@ -36,27 +36,27 @@ import kotlin.coroutines.resume
 import kotlin.coroutines.resumeWithException
 import kotlin.coroutines.suspendCoroutine
 
+// TODO: Переделать под Clean Architecture (частично готово) и вообще навести порядок
 @Composable
 fun CameraScreen(
-   goBack: () -> Unit,
    context: Context,
    viewModel: CameraScreenViewModel = viewModel()
 ) {
-   var imageUri by remember { mutableStateOf(EMPTY_IMAGE_URI) }
+   val imageUri by viewModel.imageUri
 
-   if (imageUri != EMPTY_IMAGE_URI){
+   if (!uriEmpty(imageUri)){
       Box(
          modifier = Modifier.fillMaxSize(),
          contentAlignment = Alignment.Center
       ) {
          AsyncImage(model = imageUri, contentDescription = null)
          Button(
-            modifier = Modifier.align(Alignment.BottomCenter),
-            onClick = {
-               imageUri = EMPTY_IMAGE_URI
-            }
+            modifier = Modifier
+               .align(Alignment.BottomCenter),
+            colors = ButtonDefaults.buttonColors(backgroundColor = ButtonBackground),
+            onClick = { viewModel.onSend() }
          ) {
-            Text("Remove image")
+            Text("Отправить", color = Color.White)
          }
       }
    }
@@ -65,11 +65,14 @@ fun CameraScreen(
          modifier = Modifier.fillMaxSize(),
          context = context
       ) { file ->
-         imageUri = file.toUri()
+         viewModel.onTakePhoto(file)
       }
    }
 }
 
+private fun uriEmpty(uri: Uri) : Boolean {
+   return uri == EMPTY_IMAGE_URI
+}
 
 /**
  * Запрос разрешения для использования камеры
@@ -86,7 +89,7 @@ fun RequestCameraPermissions(
 }
 
 
-
+// TODO: Переместить в соответствующую папку и возможно как-то зарефакторить
 suspend fun Context.getCameraProvider() : ProcessCameraProvider = suspendCoroutine { continuation ->
    ProcessCameraProvider.getInstance(this).also { future ->
       future.addListener({
@@ -97,7 +100,7 @@ suspend fun Context.getCameraProvider() : ProcessCameraProvider = suspendCorouti
 
 val Context.executor : Executor get() = ContextCompat.getMainExecutor(this)
 
-
+// TODO: Переделать под Clean Architecture и вообще навести порядок
 @Composable
 fun CameraPreview(
    modifier: Modifier = Modifier,
@@ -128,6 +131,7 @@ fun CameraPreview(
    )
 }
 
+// TODO: Переделать под Clean Architecture и вообще навести порядок
 @Composable
 fun CameraCapture(
    modifier: Modifier = Modifier,
@@ -149,6 +153,9 @@ fun CameraCapture(
          )
       }
       Box {
+         Box() {
+
+         }
          CameraPreview(
             modifier = Modifier.fillMaxSize(),
             onUseCase = {
@@ -199,7 +206,7 @@ fun CameraCapture(
    }
 }
 
-
+// TODO: Поместить в соответствующую папку, и вообще разобраться с этой функцией
 suspend fun ImageCapture.takePicture(executor: Executor): File {
    val photoFile = withContext(Dispatchers.IO) {
       kotlin.runCatching {

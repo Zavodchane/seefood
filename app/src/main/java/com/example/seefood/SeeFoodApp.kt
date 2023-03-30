@@ -28,6 +28,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.seefood.screens.camera.CameraScreen
 import com.example.seefood.screens.home.HomeScreen
+import com.example.seefood.ui.theme.Background
 import com.example.seefood.ui.theme.SeefoodTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -36,7 +37,7 @@ fun SeeFoodApp(){
    SeefoodTheme {
       val appState = rememberAppState()
       Scaffold(
-         backgroundColor = Color(0xFF0C0C0C), // TODO: Добавить цвета в константы
+         backgroundColor = Background, // TODO: Добавить цвета в константы
          topBar = { SeeFoodTopBar() }
       ) { innerPadding ->
          NavHost(
@@ -112,7 +113,7 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    }
 
    composable(CAMERA_SCREEN) {
-      CameraScreen(goBack = { appState.back() }, context = appState.context)
+      CameraScreen(context = appState.context)
    }
 
    composable(CATALOG_MENU_SCREEN) {
