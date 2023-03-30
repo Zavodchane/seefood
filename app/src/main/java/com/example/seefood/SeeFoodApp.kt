@@ -103,4 +103,24 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    composable(HOME_SCREEN) {
       HomeScreen(openScreen = { route -> appState.navigate(route)})
    }
+
+   composable(CAMERA_SCREEN) {
+
+   }
+
+   composable(CATALOG_MENU_SCREEN) {
+
+   }
+
+   composable(SPLASH_SCREEN) {
+
+   }
+
+   composable(RESULT_SCREEN) {
+
+   }
+
+   composable(FAVORITES_SCREEN) {
+
+   }
 }
