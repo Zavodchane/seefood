@@ -17,15 +17,9 @@ private val LightColorPalette = lightColors(
         primaryVariant = Purple700,
         secondary = Teal200
 
-        /* Other default colors to override
-    background = Color.White,
-    surface = Color.White,
-    onPrimary = Color.White,
-    onSecondary = Color.Black,
-    onBackground = Color.Black,
-    onSurface = Color.Black,
-    */
 )
+
+//TODO: Сделать тему для приложения, задать цвета
 
 @Composable
 fun SeefoodTheme(darkTheme: Boolean = isSystemInDarkTheme(), content: @Composable () -> Unit) {
