@@ -16,4 +16,8 @@ class SeeFoodAppState(
     fun navigate(route: String){
         navController.navigate(route)
     }
+
+    fun back(){
+        navController.navigateUp()
+    }
 }

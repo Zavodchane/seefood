@@ -15,7 +15,7 @@ fun HomeScreen(
 ){
   Column(modifier = Modifier.fillMaxSize()) {
     Spacer(modifier = Modifier.weight(0.3f))
-    MenuButton(
+    MenuButton( // Кнопка избранного
       modifier = Modifier
         .align(Alignment.End)
         .fillMaxWidth(0.55f),
@@ -24,7 +24,7 @@ fun HomeScreen(
       onClick = { viewModel.onFavoritesPressed(openScreen) }
     )
     Spacer(modifier = Modifier.weight(0.5f))
-    MenuButton(
+    MenuButton( // Кнопка каталогов
       modifier = Modifier
         .align(Alignment.Start)
         .fillMaxWidth(0.55f),
@@ -33,7 +33,7 @@ fun HomeScreen(
       onClick = { viewModel.onCatalogPressed(openScreen) }
     )
     Spacer(modifier = Modifier.weight(0.9f))
-    MenuButton(
+    MenuButton( // Кнопка камеры
       modifier = Modifier.fillMaxWidth(),
       buttonSkin = AppImages.camera,
       contentDescription = "Camera",
