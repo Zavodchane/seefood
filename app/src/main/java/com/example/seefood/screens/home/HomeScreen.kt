@@ -12,24 +12,32 @@ fun HomeScreen(
   // TODO: Create a viewmodel
 ){
   Column(
-    modifier = Modifier
-      .fillMaxSize(),
-    verticalArrangement = Arrangement.SpaceBetween
+    modifier = Modifier.fillMaxSize(),
   ) {
 
+    Spacer(modifier = Modifier.weight(0.3f))
+
     MenuButton(
-      modifier = Modifier.align(Alignment.End).fillMaxWidth(0.5f),
+      modifier = Modifier
+        .align(Alignment.End)
+        .fillMaxWidth(0.55f),
       buttonSkin = R.drawable.favorites,
       contentDescription = "Favorites",
       onClick = { println("Clicked on favorites") }
     )
 
+    Spacer(modifier = Modifier.weight(0.5f))
+
     MenuButton(
-      modifier = Modifier.align(Alignment.Start).fillMaxWidth(0.5f),
+      modifier = Modifier
+        .align(Alignment.Start)
+        .fillMaxWidth(0.55f),
       buttonSkin = R.drawable.catalogs,
       contentDescription = "Catalogs",
       onClick = { println("Clicked on catalogs") }
     )
+
+    Spacer(modifier = Modifier.weight(0.9f))
 
     MenuButton(
       modifier = Modifier.fillMaxWidth(),
