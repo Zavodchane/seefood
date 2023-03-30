@@ -8,6 +8,14 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import coil.compose.AsyncImage
 
+/**
+ * Кнопка меню
+ *
+ * @param[buttonSkin] - путь в картинке для кнопки
+ * @param[modifier] - модификатор кнопки
+ * @param[contentDescription] - описание контента (default)
+ * @param[onClick] - функция выполняемая при нажатии
+ */
 @Composable
 fun MenuButton(
   @DrawableRes buttonSkin: Int,
