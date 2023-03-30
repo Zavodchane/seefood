@@ -13,5 +13,7 @@ class SeeFoodAppState(
     private val resources: Resources,
     coroutineScope: CoroutineScope
 ) {
-
+    fun navigate(route: String){
+        navController.navigate(route)
+    }
 }

@@ -32,47 +32,17 @@ import kotlinx.coroutines.CoroutineScope
 @Composable
 fun SeeFoodApp(){
    SeefoodTheme {
-      Surface(color = Color.Black) {
-         val appState = rememberAppState()
-
-         Scaffold(
-            backgroundColor = Color(0xFF0C0C0C),
-            topBar = {
-               TopAppBar(
-                  modifier = Modifier
-                     .shadow(
-                        elevation = 10.dp,
-                        shape = RoundedCornerShape(
-                           bottomStart = 5.dp,
-                           bottomEnd = 5.dp
-                        )
-                     )
-                     .clip(RoundedCornerShape(
-                        bottomStart = 5.dp,
-                        bottomEnd = 5.dp
-                     )),
-                  backgroundColor = Color.Black, // TODO: Добавить цвета как константы
-               ) {
-                  Text(
-                     modifier = Modifier.fillMaxWidth(),
-                     text = "SEEFOOD",
-                     style = TextStyle( // TODO: Сделать все стили текста как константы
-                        color = Color.White,
-                        fontWeight = FontWeight.W700,
-                        fontSize = 24.sp,
-                        textAlign = TextAlign.Center
-                     )
-                  )
-               }
-            }
-         ) { innerPadding ->
-            NavHost(
-               navController = appState.navController,
-               startDestination = HOME_SCREEN,
-               modifier = Modifier.padding(innerPadding)
-            ){
-               seeFoodGraph(appState)
-            }
+      val appState = rememberAppState()
+      Scaffold(
+         backgroundColor = Color(0xFF0C0C0C), // TODO: Добавить цвета в константы
+         topBar = { SeeFoodTopBar() }
+      ) { innerPadding ->
+         NavHost(
+            navController = appState.navController,
+            startDestination = HOME_SCREEN,
+            modifier = Modifier.padding(innerPadding)
+         ){
+            seeFoodGraph(appState)
          }
       }
    }
@@ -97,8 +67,40 @@ fun resources(): Resources {
    return LocalContext.current.resources
 }
 
+@Composable
+fun SeeFoodTopBar(){
+   TopAppBar(
+      modifier = Modifier
+         .shadow(
+            elevation = 10.dp,
+            shape = RoundedCornerShape(
+               bottomStart = 5.dp,
+               bottomEnd = 5.dp
+            )
+         )
+         .clip(
+            RoundedCornerShape(
+               bottomStart = 5.dp,
+               bottomEnd = 5.dp
+            )
+         ),
+      backgroundColor = Color.Black, // TODO: Добавить цвета как константы
+   ) {
+      Text(
+         modifier = Modifier.fillMaxWidth(),
+         text = "SEEFOOD",
+         style = TextStyle( // TODO: Сделать все стили текста как константы
+            color = Color.White,
+            fontWeight = FontWeight.W700,
+            fontSize = 24.sp,
+            textAlign = TextAlign.Center
+         )
+      )
+   }
+}
+
 fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    composable(HOME_SCREEN) {
-      HomeScreen()
+      HomeScreen(openScreen = { route -> appState.navigate(route)})
    }
 }
