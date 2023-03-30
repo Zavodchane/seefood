@@ -13,7 +13,7 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object SeeFoodAppModule {
 
-    // TODO: Добавить базовую ссылку возможно только после создания API (Влад момент :) )
+    // TODO: Добавить базовую ссылку, возможно только после создания API (Влад момент :) )
     @Provides
     fun baseUrl() = ""
 
