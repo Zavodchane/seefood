@@ -24,9 +24,11 @@ import androidx.compose.ui.viewinterop.AndroidView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.viewmodel.compose.viewModel
 import coil.compose.AsyncImage
+import com.example.seefood.SeeFoodAppState
 import com.example.seefood.ui.theme.ButtonBackground
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberPermissionState
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -39,7 +41,7 @@ import kotlin.coroutines.suspendCoroutine
 // TODO: Переделать под Clean Architecture (частично готово) и вообще навести порядок
 @Composable
 fun CameraScreen(
-   context: Context,
+   appState: SeeFoodAppState,
    viewModel: CameraScreenViewModel = viewModel()
 ) {
    val imageUri by viewModel.imageUri
@@ -63,7 +65,7 @@ fun CameraScreen(
    else {
       CameraCapture(
          modifier = Modifier.fillMaxSize(),
-         context = context
+         appState = appState
       ) { file ->
          viewModel.onTakePhoto(file)
       }
@@ -93,7 +95,7 @@ fun RequestCameraPermissions(
 suspend fun Context.getCameraProvider() : ProcessCameraProvider = suspendCoroutine { continuation ->
    ProcessCameraProvider.getInstance(this).also { future ->
       future.addListener({
-         continuation.resume(future.get())
+         continuation.resume(future.run { get() })
       }, executor)
    }
 }
@@ -136,14 +138,13 @@ fun CameraPreview(
 fun CameraCapture(
    modifier: Modifier = Modifier,
    cameraSelector: CameraSelector = CameraSelector.DEFAULT_BACK_CAMERA,
-   context: Context,
+   appState: SeeFoodAppState,
    onImageFile: (File) -> Unit = { }
 ) {
    RequestCameraPermissions()
 
    Box(modifier = modifier) {
       val lifecycleOwner = LocalLifecycleOwner.current
-      val coroutineScope = rememberCoroutineScope()
       var previewUseCase by remember { mutableStateOf<UseCase>(Preview.Builder().build()) }
       val imageCaptureUseCase by remember {
          mutableStateOf(
@@ -153,9 +154,6 @@ fun CameraCapture(
          )
       }
       Box {
-         Box() {
-
-         }
          CameraPreview(
             modifier = Modifier.fillMaxSize(),
             onUseCase = {
@@ -170,30 +168,16 @@ fun CameraCapture(
                .align(Alignment.BottomCenter),
             horizontalArrangement = Arrangement.Center
          ){
-            var buttonColor by remember { mutableStateOf(Color.LightGray) }
-
-            Box(
-               modifier = Modifier
-                  .size(70.dp)
-                  .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
-                  .padding(5.dp)
-                  .clip(CircleShape)
-                  .background(color = buttonColor)
-                  .clickable {
-                     coroutineScope.launch {
-                        buttonColor = Color.Gray
-                        imageCaptureUseCase
-                           .takePicture(context.executor)
-                           .let {
-                              onImageFile(it)
-                           }
-                     }
-                  }
+            CameraButton(
+               context = appState.context,
+               coroutineScope = appState.coroutineScope,
+               imageCaptureUseCase = imageCaptureUseCase,
+               onImageFile = onImageFile
             )
          }
       }
       LaunchedEffect(previewUseCase) {
-         val cameraProvider = context.getCameraProvider()
+         val cameraProvider = appState.context.getCameraProvider()
          try {
             cameraProvider.unbindAll()
             cameraProvider.bindToLifecycle(
@@ -205,6 +189,36 @@ fun CameraCapture(
       }
    }
 }
+
+@Composable
+fun CameraButton(
+   coroutineScope: CoroutineScope,
+   context: Context,
+   imageCaptureUseCase: ImageCapture,
+   onImageFile: (File) -> Unit
+){
+   var buttonColor by remember { mutableStateOf(Color.LightGray) }
+
+   Box(
+      modifier = Modifier
+         .size(70.dp)
+         .border(width = 2.dp, color = Color.Gray, shape = CircleShape)
+         .padding(5.dp)
+         .clip(CircleShape)
+         .background(color = buttonColor)
+         .clickable {
+            coroutineScope.launch {
+               buttonColor = Color.Gray
+               imageCaptureUseCase
+                  .takePicture(context.executor)
+                  .let {
+                     onImageFile(it)
+                  }
+            }
+         }
+   )
+}
+
 
 // TODO: Поместить в соответствующую папку, и вообще разобраться с этой функцией
 suspend fun ImageCapture.takePicture(executor: Executor): File {

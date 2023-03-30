@@ -13,7 +13,7 @@ class SeeFoodAppState(
   val navController: NavHostController,
   private val resources: Resources,
   val context: Context,
-  coroutineScope: CoroutineScope
+  val coroutineScope: CoroutineScope
 ) {
   fun navigate(route: String){
     navController.navigate(route)

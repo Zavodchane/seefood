@@ -113,7 +113,7 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    }
 
    composable(CAMERA_SCREEN) {
-      CameraScreen(context = appState.context)
+      CameraScreen(appState = appState)
    }
 
    composable(CATALOG_MENU_SCREEN) {
