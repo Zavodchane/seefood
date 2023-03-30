@@ -11,10 +11,10 @@ import coil.compose.AsyncImage
 /**
  * Кнопка меню
  *
- * @param[buttonSkin] - путь в картинке для кнопки
- * @param[modifier] - модификатор кнопки
- * @param[contentDescription] - описание контента (default)
- * @param[onClick] - функция выполняемая при нажатии
+ * @param[buttonSkin] путь в картинке для кнопки
+ * @param[modifier] модификатор кнопки
+ * @param[contentDescription] описание контента (default)
+ * @param[onClick] функция выполняемая при нажатии
  */
 @Composable
 fun MenuButton(
