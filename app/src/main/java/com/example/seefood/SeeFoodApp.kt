@@ -25,6 +25,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.seefood.screens.favorites.FavoritesScreen
 import com.example.seefood.screens.home.HomeScreen
 import com.example.seefood.ui.theme.SeefoodTheme
 import kotlinx.coroutines.CoroutineScope
@@ -121,6 +122,6 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    }
 
    composable(FAVORITES_SCREEN) {
-
+      FavoritesScreen()
    }
 }

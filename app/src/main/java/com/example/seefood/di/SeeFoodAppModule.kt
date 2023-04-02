@@ -1,6 +1,10 @@
 package com.example.seefood.di
 
+import android.app.Application
 import com.example.seefood.data.network.ApiService
+import com.example.seefood.database.SeeFoodDatabase
+import com.example.seefood.database.dao.DishDao
+import com.example.seefood.database.repos.DishRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -26,4 +30,25 @@ object SeeFoodAppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(ApiService::class.java)
+
+
+    @Provides
+    @Singleton
+    fun provideSeeFoodDatabase(app: Application) : SeeFoodDatabase {
+        return SeeFoodDatabase.getInstance(app.applicationContext)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDishRepository(
+        dishDao: DishDao
+    ) : DishRepository {
+        return DishRepository(dishDao = dishDao)
+    }
+
+    @Provides
+    @Singleton
+    fun provideDishDao(seeFoodDatabase: SeeFoodDatabase) : DishDao {
+        return seeFoodDatabase.dishDao
+    }
 }

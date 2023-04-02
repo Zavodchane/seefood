@@ -9,6 +9,6 @@ class DishRepository(
 ) {
    suspend fun upsertDish(dish: Dish) = dishDao.upsertDish(dish = dish)
    suspend fun deleteDish(dish: Dish) = dishDao.deleteDish(dish = dish)
-   suspend fun getFavoriteDishes() : Flow<List<Dish>> = dishDao.getFavoriteDishes()
-   suspend fun getDishesByCategory(category: String) : Flow<List<Dish>> = dishDao.getDishesByCategory(category = category)
+   fun getFavoriteDishes() : Flow<List<Dish>> = dishDao.getFavoriteDishes()
+   fun getDishesByCategory(category: String) : Flow<List<Dish>> = dishDao.getDishesByCategory(category = category)
 }

@@ -17,8 +17,8 @@ interface DishDao {
    suspend fun deleteDish(dish: Dish)
 
    @Query("SELECT * FROM dishes WHERE is_favorite = TRUE")
-   suspend fun getFavoriteDishes() : Flow<List<Dish>>
+   fun getFavoriteDishes() : Flow<List<Dish>>
 
    @Query("SELECT * FROM dishes WHERE category = :category")
-   suspend fun getDishesByCategory(category: String) : Flow<List<Dish>>
+   fun getDishesByCategory(category: String) : Flow<List<Dish>>
 }
