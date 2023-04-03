@@ -9,17 +9,17 @@ import kotlinx.coroutines.CoroutineScope
 
 @Stable
 class SeeFoodAppState(
-  val scaffoldState: ScaffoldState,
-  val navController: NavHostController,
-  private val resources: Resources,
-  val context: Context,
-  val coroutineScope: CoroutineScope
+   val scaffoldState: ScaffoldState,
+   val navController: NavHostController,
+   private val resources: Resources,
+   val context: Context,
+   val coroutineScope: CoroutineScope
 ) {
-  fun navigate(route: String){
-    navController.navigate(route)
-  }
+   fun navigate(route: String){
+      navController.navigate(route)
+   }
 
-  fun back(){
-    navController.navigateUp()
-  }
+   fun back(){
+      navController.navigateUp()
+   }
 }
