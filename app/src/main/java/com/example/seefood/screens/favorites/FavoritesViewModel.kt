@@ -24,7 +24,6 @@ class FavoritesViewModel
    override val dishesListFlow: Flow<List<Dish>>
       get() = dishRepository.getFavoriteDishes()
 
-
    override fun unfavoriteDish(dish: Dish) {
       if (dish.category == ""){
          viewModelScope.launch { dishRepository.deleteDish(dish) }
@@ -46,6 +45,7 @@ class FavoritesViewModel
       }
    }
 
+   // TODO: Убрать потом, функция чисто для тестов
    override fun addDish(dish: Dish) {
       viewModelScope.launch { dishRepository.upsertDish(dish) }
    }

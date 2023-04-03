@@ -10,6 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.seefood.common.composable.AreYouSureDialog
 import com.example.seefood.database.objects.Dish
 
 @Composable
@@ -22,7 +23,9 @@ fun FavoritesScreen(
 
    // Этот блок для тестирования TODO: Убрать потом!
    Column(
-      modifier = Modifier.fillMaxWidth().padding(10.dp),
+      modifier = Modifier
+         .fillMaxWidth()
+         .padding(10.dp),
    ){
       Column(
          modifier = Modifier.fillMaxWidth(),
@@ -71,13 +74,22 @@ fun FavoritesScreen(
          modifier = Modifier.fillMaxSize()
       ){
          items(dishesListState.value.size) { dishIdx ->
+            var isDialogVisible by remember { mutableStateOf(false) }
+
             Row(
                modifier = Modifier.fillMaxWidth(),
                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-               Text(text = dishesListState.value[dishIdx].name, color = Color.White)
-               Button(onClick = { viewModel.unfavoriteDish(dishesListState.value[dishIdx]) }) {
+               Text(text = "${dishesListState.value[dishIdx].name} : ${dishesListState.value[dishIdx].isFavorite}", color = Color.White)
+               Button(onClick = { isDialogVisible = true }) {
                   Text(text = "Unfavorite")
+               }
+               if (isDialogVisible) {
+                  AreYouSureDialog(
+                     onConfirm = { viewModel.unfavoriteDish(dishesListState.value[dishIdx]) },
+                     onDismiss = { isDialogVisible = false },
+                     titleText = "Убрать ${dishesListState.value[dishIdx].name} из избранного?"
+                  )
                }
             }
          }
