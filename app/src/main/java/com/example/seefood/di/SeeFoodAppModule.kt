@@ -3,7 +3,9 @@ package com.example.seefood.di
 import android.app.Application
 import com.example.seefood.data.network.ApiService
 import com.example.seefood.database.SeeFoodDatabase
+import com.example.seefood.database.dao.CatalogDao
 import com.example.seefood.database.dao.DishDao
+import com.example.seefood.database.repos.CatalogRepository
 import com.example.seefood.database.repos.DishRepository
 import dagger.Module
 import dagger.Provides
@@ -51,4 +53,18 @@ object SeeFoodAppModule {
     fun provideDishDao(seeFoodDatabase: SeeFoodDatabase) : DishDao {
         return seeFoodDatabase.dishDao
     }
+
+   @Provides
+   @Singleton
+   fun provideCategoryRepository(
+      catalogDao: CatalogDao
+   ) : CatalogRepository {
+      return CatalogRepository(catalogDao = catalogDao)
+   }
+
+   @Provides
+   @Singleton
+   fun provideCategoryDao(seeFoodDatabase: SeeFoodDatabase) : CatalogDao {
+      return seeFoodDatabase.catalogDao
+   }
 }

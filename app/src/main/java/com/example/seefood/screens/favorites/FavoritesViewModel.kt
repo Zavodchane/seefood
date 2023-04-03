@@ -25,7 +25,7 @@ class FavoritesViewModel
       get() = dishRepository.getFavoriteDishes()
 
    override fun unfavoriteDish(dish: Dish) {
-      if (dish.category == ""){
+      if (dish.catalog == ""){
          viewModelScope.launch { dishRepository.deleteDish(dish) }
       }
       else {
@@ -35,7 +35,7 @@ class FavoritesViewModel
                   name = dish.name,
                   recipe = dish.recipe,
                   imgLocalPath = dish.imgLocalPath,
-                  category = dish.category,
+                  catalog = dish.catalog,
                   isFavorite = false,
 
                   id = dish.id

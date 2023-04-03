@@ -38,7 +38,7 @@ fun FavoritesScreen(
                      name = "fake_dish",
                      recipe = "fake_recipe",
                      imgLocalPath = "none",
-                     category = "fake_category",
+                     catalog = "fake_category",
                      isFavorite = false,
 
                      id = idCount
@@ -47,7 +47,7 @@ fun FavoritesScreen(
                idCount++
             }
          ) {
-            Text(text = "add not favorited")
+            Text(text = "add not favorite")
          }
 
          Button(
@@ -57,7 +57,7 @@ fun FavoritesScreen(
                      name = "favorite_dish",
                      recipe = "fake_recipe",
                      imgLocalPath = "none",
-                     category = "fake_category",
+                     catalog = "fake_category",
                      isFavorite = true,
 
                      id = idCount
