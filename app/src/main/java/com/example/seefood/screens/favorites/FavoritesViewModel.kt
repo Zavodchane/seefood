@@ -12,7 +12,6 @@ import javax.inject.Inject
 interface FavoritesViewModelAbstract  {
    val dishesListFlow: Flow<List<Dish>>
    fun unfavoriteDish(dish: Dish)
-   fun addDish(dish: Dish)
 }
 
 @HiltViewModel
@@ -43,10 +42,5 @@ class FavoritesViewModel
             )
          }
       }
-   }
-
-   // TODO: Убрать потом, функция чисто для тестов
-   override fun addDish(dish: Dish) {
-      viewModelScope.launch { dishRepository.upsertDish(dish) }
    }
 }

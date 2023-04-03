@@ -21,27 +21,6 @@ class CatalogsMenuViewModel
    private val catalogRepository: CatalogRepository
 ) : ViewModel(), CatalogsMenuViewModelAbstract {
 
-   init {
-      // Для тестов заполняю фейковыми категориями
-      viewModelScope.launch {
-         catalogRepository.upsertCatalog(
-            Catalog(name = "fake_category")
-         )
-         catalogRepository.upsertCatalog(
-            Catalog(name = "sample_catalog_2")
-         )
-         catalogRepository.upsertCatalog(
-            Catalog(name = "sample_catalog_3")
-         )
-         catalogRepository.upsertCatalog(
-            Catalog(name = "sample_catalog_4")
-         )
-         catalogRepository.upsertCatalog(
-            Catalog(name = "sample_catalog_5")
-         )
-      }
-   }
-
    override val catalogsListFlow: Flow<List<Catalog>>
       get() = catalogRepository.getAllCatalogs()
 
