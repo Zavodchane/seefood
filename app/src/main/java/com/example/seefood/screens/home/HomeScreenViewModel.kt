@@ -4,17 +4,27 @@ import androidx.lifecycle.ViewModel
 import com.example.seefood.CAMERA_SCREEN
 import com.example.seefood.CATALOG_MENU_SCREEN
 import com.example.seefood.FAVORITES_SCREEN
+import dagger.hilt.android.lifecycle.HiltViewModel
+import javax.inject.Inject
 
-class HomeScreenViewModel : ViewModel (){
-    fun onFavoritesPressed(openScreen: (String) -> Unit){
+interface HomeScreenViewModelAbstract {
+    fun onFavoritesPressed (openScreen: (String) -> Unit)
+    fun onCatalogPressed   (openScreen: (String) -> Unit)
+    fun onCameraPressed    (openScreen: (String) -> Unit)
+}
+
+@HiltViewModel
+class HomeScreenViewModel
+@Inject constructor() : ViewModel(), HomeScreenViewModelAbstract {
+    override fun onFavoritesPressed(openScreen: (String) -> Unit) {
         openScreen(FAVORITES_SCREEN)
     }
 
-    fun onCatalogPressed(openScreen: (String) -> Unit){
+    override fun onCatalogPressed(openScreen: (String) -> Unit) {
         openScreen(CATALOG_MENU_SCREEN)
     }
 
-    fun onCameraPressed(openScreen: (String) -> Unit){
+    override fun onCameraPressed(openScreen: (String) -> Unit) {
         openScreen(CAMERA_SCREEN)
     }
 }

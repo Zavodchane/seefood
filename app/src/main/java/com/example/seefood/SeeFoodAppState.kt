@@ -1,5 +1,6 @@
 package com.example.seefood
 
+import android.content.Context
 import android.content.res.Resources
 import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Stable
@@ -8,12 +9,17 @@ import kotlinx.coroutines.CoroutineScope
 
 @Stable
 class SeeFoodAppState(
-    val scaffoldState: ScaffoldState,
-    val navController: NavHostController,
-    private val resources: Resources,
-    coroutineScope: CoroutineScope
+  val scaffoldState: ScaffoldState,
+  val navController: NavHostController,
+  private val resources: Resources,
+  val context: Context,
+  val coroutineScope: CoroutineScope
 ) {
-    fun navigate(route: String){
-        navController.navigate(route)
-    }
+  fun navigate(route: String){
+    navController.navigate(route)
+  }
+
+  fun back(){
+    navController.navigateUp()
+  }
 }
