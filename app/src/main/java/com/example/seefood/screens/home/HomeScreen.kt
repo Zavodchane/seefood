@@ -4,14 +4,14 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.seefood.R.drawable as AppImages
 import com.example.seefood.common.composable.MenuButton
-import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun HomeScreen(
   openScreen: (String) -> Unit,
-  viewModel: HomeScreenViewModel = viewModel()
+  viewModel: HomeScreenViewModel = hiltViewModel()
 ){
   Column(modifier = Modifier.fillMaxSize()) {
     Spacer(modifier = Modifier.weight(0.3f))
