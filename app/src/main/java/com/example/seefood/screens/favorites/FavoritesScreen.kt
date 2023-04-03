@@ -80,13 +80,13 @@ fun FavoritesScreen(
                modifier = Modifier.fillMaxWidth(),
                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-               Text(text = "${dishesListState.value[dishIdx].name} : ${dishesListState.value[dishIdx].isFavorite}", color = Color.White)
+               Text(text = "${dishesListState.value[dishIdx].name} : ${dishesListState.value[dishIdx].id }", color = Color.White)
                Button(onClick = { isDialogVisible = true }) {
                   Text(text = "Unfavorite")
                }
                if (isDialogVisible) {
                   AreYouSureDialog(
-                     onConfirm = { viewModel.unfavoriteDish(dishesListState.value[dishIdx]) },
+                     onConfirm = { viewModel.unfavoriteDish(dishesListState.value[dishIdx]); isDialogVisible = false },
                      onDismiss = { isDialogVisible = false },
                      titleText = "Убрать ${dishesListState.value[dishIdx].name} из избранного?"
                   )
