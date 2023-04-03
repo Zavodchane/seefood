@@ -12,7 +12,6 @@ import javax.inject.Inject
 interface FavoritesViewModelAbstract  {
    val dishesListFlow: Flow<List<Dish>>
    fun unfavoriteDish(dish: Dish)
-   fun addDish(dish: Dish)
 }
 
 @HiltViewModel
@@ -25,7 +24,7 @@ class FavoritesViewModel
       get() = dishRepository.getFavoriteDishes()
 
    override fun unfavoriteDish(dish: Dish) {
-      if (dish.category == ""){
+      if (dish.catalog == ""){
          viewModelScope.launch { dishRepository.deleteDish(dish) }
       }
       else {
@@ -35,7 +34,7 @@ class FavoritesViewModel
                   name = dish.name,
                   recipe = dish.recipe,
                   imgLocalPath = dish.imgLocalPath,
-                  category = dish.category,
+                  catalog = dish.catalog,
                   isFavorite = false,
 
                   id = dish.id
@@ -43,10 +42,5 @@ class FavoritesViewModel
             )
          }
       }
-   }
-
-   // TODO: Убрать потом, функция чисто для тестов
-   override fun addDish(dish: Dish) {
-      viewModelScope.launch { dishRepository.upsertDish(dish) }
    }
 }

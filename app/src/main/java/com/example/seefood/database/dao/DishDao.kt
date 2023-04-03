@@ -19,6 +19,6 @@ interface DishDao {
    @Query("SELECT * FROM dishes WHERE is_favorite = TRUE")
    fun getFavoriteDishes() : Flow<List<Dish>>
 
-   @Query("SELECT * FROM dishes WHERE category = :category")
-   fun getDishesByCategory(category: String) : Flow<List<Dish>>
+   @Query("SELECT * FROM dishes WHERE catalog = :catalogName")
+   fun getDishesByCatalogName(catalogName: String) : Flow<List<Dish>>
 }
