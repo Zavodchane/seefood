@@ -11,8 +11,8 @@ import javax.inject.Inject
 
 interface CatalogsMenuViewModelAbstract {
    val catalogsListFlow: Flow<List<Catalog>>
-   fun addCategory(catalog: Catalog)
-   fun deleteCategory(catalog: Catalog)
+   fun addCatalog(catalog: Catalog)
+   fun deleteCatalog(catalog: Catalog)
 }
 
 @HiltViewModel
@@ -45,13 +45,12 @@ class CatalogsMenuViewModel
    override val catalogsListFlow: Flow<List<Catalog>>
       get() = catalogRepository.getAllCatalogs()
 
-   override fun addCategory(catalog: Catalog) {
+   override fun addCatalog(catalog: Catalog) {
       viewModelScope.launch {
          catalogRepository.upsertCatalog(catalog = catalog)
       }
    }
-
-   override fun deleteCategory(catalog: Catalog) {
+   override fun deleteCatalog(catalog: Catalog) {
       viewModelScope.launch {
          catalogRepository.deleteCatalog(catalog = catalog)
       }
