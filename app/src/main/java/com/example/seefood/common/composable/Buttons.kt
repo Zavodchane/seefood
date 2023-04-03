@@ -18,22 +18,22 @@ import coil.compose.AsyncImage
  */
 @Composable
 fun MenuButton(
-  @DrawableRes buttonSkin: Int,
-  modifier: Modifier = Modifier,
-  contentDescription: String,
-  onClick: () -> Unit
+   @DrawableRes buttonSkin: Int,
+   modifier: Modifier = Modifier,
+   contentDescription: String,
+   onClick: () -> Unit
 ) {
-  val interactionSource = MutableInteractionSource()
+   val interactionSource = MutableInteractionSource()
 
-  Row(
-    modifier = modifier
-      .clickable (
-        interactionSource = interactionSource,
-        indication = null
-      ) {
-        onClick()
-      },
-  ) {
-    AsyncImage(model = buttonSkin, contentDescription = contentDescription)
-  }
+   Row(
+      modifier = modifier
+         .clickable (
+            interactionSource = interactionSource,
+            indication = null
+         ) {
+            onClick()
+         },
+   ) {
+      AsyncImage(model = buttonSkin, contentDescription = contentDescription)
+   }
 }

@@ -1,5 +1,6 @@
 package com.example.seefood
 
+import android.content.Context
 import android.content.res.Resources
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -25,7 +26,9 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.example.seefood.screens.camera.CameraScreen
 import com.example.seefood.screens.home.HomeScreen
+import com.example.seefood.ui.theme.Background
 import com.example.seefood.ui.theme.SeefoodTheme
 import kotlinx.coroutines.CoroutineScope
 
@@ -34,7 +37,7 @@ fun SeeFoodApp(){
    SeefoodTheme {
       val appState = rememberAppState()
       Scaffold(
-         backgroundColor = Color(0xFF0C0C0C), // TODO: Добавить цвета в константы
+         backgroundColor = Background, // TODO: Добавить цвета в константы
          topBar = { SeeFoodTopBar() }
       ) { innerPadding ->
          NavHost(
@@ -53,10 +56,11 @@ fun rememberAppState(
    scaffoldState: ScaffoldState = rememberScaffoldState(),
    navController: NavHostController = rememberNavController(),
    resources: Resources = resources(),
+   context: Context = context(),
    coroutineScope: CoroutineScope = rememberCoroutineScope()
 ) =
-   remember(scaffoldState, navController, resources, coroutineScope) {
-      SeeFoodAppState(scaffoldState, navController, resources, coroutineScope)
+   remember(scaffoldState, navController, resources, context, coroutineScope) {
+      SeeFoodAppState(scaffoldState, navController, resources, context, coroutineScope)
    }
 
 
@@ -66,6 +70,10 @@ fun resources(): Resources {
    LocalConfiguration.current
    return LocalContext.current.resources
 }
+
+@Composable
+@ReadOnlyComposable
+fun context(): Context { return LocalContext.current }
 
 @Composable
 fun SeeFoodTopBar(){
@@ -105,7 +113,7 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    }
 
    composable(CAMERA_SCREEN) {
-
+      CameraScreen(appState = appState)
    }
 
    composable(CATALOG_MENU_SCREEN) {

@@ -27,5 +27,4 @@ class HomeScreenViewModel
     override fun onCameraPressed(openScreen: (String) -> Unit) {
         openScreen(CAMERA_SCREEN)
     }
-
 }
