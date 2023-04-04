@@ -27,17 +27,24 @@ class CatalogViewModel
 
    override fun removeDishFromCatalog(dish: Dish) {
       viewModelScope.launch {
-         dishRepository.upsertDish(
-            dish = Dish(
-               name = dish.name,
-               recipe = dish.recipe,
-               imgLocalPath = dish.imgLocalPath,
-               catalog = "",
-               isFavorite = dish.isFavorite,
+         if (!dish.isFavorite){
+            viewModelScope.launch { dishRepository.deleteDish(dish) }
+         }
+         else {
+            viewModelScope.launch {
+               dishRepository.upsertDish(
+                  Dish(
+                     name = dish.name,
+                     recipe = dish.recipe,
+                     imgLocalPath = dish.imgLocalPath,
+                     catalog = "",
+                     isFavorite = dish.isFavorite,
 
-               id = dish.id
-            )
-         )
+                     id = dish.id
+                  )
+               )
+            }
+         }
       }
    }
 }
