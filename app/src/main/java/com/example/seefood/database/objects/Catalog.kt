@@ -6,5 +6,7 @@ import androidx.room.PrimaryKey
 @Entity(tableName = "catalogs")
 data class Catalog (
    @PrimaryKey
-   val name : String
+   val name               : String,
+   val creationDate       : String,
+   val thumbnailLocalPath : String
 )
