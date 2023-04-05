@@ -1,21 +1,34 @@
 package com.example.seefood.screens.camera
 
-import androidx.compose.runtime.mutableStateOf
-import androidx.core.net.toUri
+import android.content.Context
+import androidx.camera.view.PreviewView
+import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
-import java.io.File
+import androidx.lifecycle.viewModelScope
+import com.example.seefood.data.camera.CameraService
+import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.launch
+import javax.inject.Inject
 
-class CameraScreenViewModel : ViewModel() {
+@HiltViewModel
+class CameraScreenViewModel @Inject constructor(
+   private val repo: CameraService
+) : ViewModel() {
+   fun showCameraPreview(
+      previewView: PreviewView,
+      lifecycleOwner: LifecycleOwner
+   ){
+      viewModelScope.launch {
+         repo.showCameraPreview(
+            previewView,
+            lifecycleOwner
+         )
+      }
+   }
 
-   var imageUri = mutableStateOf(EMPTY_IMAGE_URI)
-      private set
-
-   fun onTakePhoto(file: File) { imageUri.value = file.toUri() }
-
-   fun onSend() {
-      // TODO: Дописать функцию отправки
-
-      imageUri.value = EMPTY_IMAGE_URI // Это строго после функции отправки!!!
-
+   fun captureAndSave(context: Context){
+      viewModelScope.launch {
+         repo.captureAndSaveImage(context)
+      }
    }
 }
