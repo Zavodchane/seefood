@@ -1,7 +1,9 @@
 package com.example.seefood
 
+import android.Manifest
 import android.content.Context
 import android.content.res.Resources
+import android.os.Build
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -62,7 +64,7 @@ fun rememberAppState(
    navController: NavHostController = rememberNavController(),
    resources: Resources = resources(),
    context: Context = context(),
-   coroutineScope: CoroutineScope = rememberCoroutineScope()
+   coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) =
    remember(scaffoldState, navController, resources, context, coroutineScope) {
       SeeFoodAppState(scaffoldState, navController, resources, context, coroutineScope)
@@ -79,6 +81,21 @@ fun resources(): Resources {
 @Composable
 @ReadOnlyComposable
 fun context(): Context { return LocalContext.current }
+
+fun permissions(): List<String> {
+   return if (Build.VERSION.SDK_INT <= 28) {
+      listOf(
+         Manifest.permission.CAMERA,
+         Manifest.permission.WRITE_EXTERNAL_STORAGE
+      )
+   }
+   else {
+      listOf(
+         Manifest.permission.CAMERA,
+         Manifest.permission.ACCESS_MEDIA_LOCATION
+      )
+   }
+}
 
 @Composable
 fun SeeFoodTopBar(){
@@ -118,7 +135,7 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    }
 
    composable(CAMERA_SCREEN) {
-      CameraScreen(appState = appState)
+      CameraScreen()
    }
 
    composable(CATALOG_MENU_SCREEN) {
