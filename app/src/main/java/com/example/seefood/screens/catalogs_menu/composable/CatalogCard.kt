@@ -3,10 +3,12 @@ package com.example.seefood.screens.catalogs_menu.composable
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -35,14 +37,16 @@ fun CatalogCard(
          .fillMaxWidth()
          .background(color = Color.Transparent)
          .clickable { openScreen("$CATALOG_SCREEN/${catalog.name}") },
-      verticalAlignment = Alignment.CenterVertically
+      verticalAlignment = Alignment.CenterVertically,
+      horizontalArrangement = Arrangement.spacedBy(30.dp)
    ) {
       // TODO: Все паддинги, размеры, стили добавить в константы
       var imageSize by remember { mutableStateOf(Size.Zero) }
+
       AsyncImage(
          modifier = Modifier
             .fillMaxWidth(0.21f)
-            .padding(horizontal = 30.dp, vertical = 25.dp)
+            .clip(RoundedCornerShape(10.dp))
             .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
             .height(with(LocalDensity.current) { imageSize.width.toDp() }),
          model = File(catalog.thumbnailLocalPath),

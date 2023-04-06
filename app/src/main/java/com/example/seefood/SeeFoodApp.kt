@@ -86,13 +86,15 @@ fun permissions(): List<String> {
    return if (Build.VERSION.SDK_INT <= 28) {
       listOf(
          Manifest.permission.CAMERA,
-         Manifest.permission.WRITE_EXTERNAL_STORAGE
+         Manifest.permission.WRITE_EXTERNAL_STORAGE,
+         Manifest.permission.READ_EXTERNAL_STORAGE
       )
    }
    else {
       listOf(
          Manifest.permission.CAMERA,
-         Manifest.permission.ACCESS_MEDIA_LOCATION
+         Manifest.permission.ACCESS_MEDIA_LOCATION,
+         if (Build.VERSION.SDK_INT >= 33) Manifest.permission.READ_MEDIA_IMAGES else Manifest.permission.READ_EXTERNAL_STORAGE
       )
    }
 }

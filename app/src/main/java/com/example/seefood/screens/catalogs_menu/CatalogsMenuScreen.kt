@@ -1,12 +1,8 @@
 package com.example.seefood.screens.catalogs_menu
 
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.material.FloatingActionButton
-import androidx.compose.material.Icon
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.rounded.AddCircle
 import androidx.compose.runtime.*
@@ -19,6 +15,7 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
+import com.example.seefood.database.objects.Catalog
 import com.example.seefood.screens.catalogs_menu.composable.CatalogCard
 
 @Composable
@@ -41,7 +38,7 @@ fun CatalogsMenuScreen(
    ) {
       FloatingActionButton(
          modifier = Modifier
-            .padding(top = 10.dp, end = 15.dp)
+            .offset(y = 10.dp, x = (-15).dp)
             .size(with(LocalDensity.current) { colSize.width.toDp() / 8f })
             .align(Alignment.End),
          onClick = { /*TODO*/ },
@@ -56,6 +53,15 @@ fun CatalogsMenuScreen(
          )
       }
    }
+
+   // Для теста
+   viewModel.addCatalog(
+      Catalog(
+         name = "Exampleur",
+         creationDate = "0",
+         thumbnailLocalPath = "/storage/emulated/0/Pictures/SeeFood/2023-04-05-22-28-26-444.jpg"
+      )
+   )
 
    LazyColumn(
       modifier = Modifier
