@@ -1,5 +1,6 @@
 package com.example.seefood.screens.catalogs_menu.composable
 
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,6 +14,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -22,13 +24,15 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import coil.compose.AsyncImage
 import com.example.seefood.CATALOG_SCREEN
+import com.example.seefood.common.util.URIPathHelper
 import com.example.seefood.database.objects.Catalog
 import java.io.File
 
 @Composable
 fun CatalogCard(
    catalog    : Catalog,
-   openScreen : (String) -> Unit
+   openScreen : (String) -> Unit,
+
 ) {
    // 0.21f для картинки, рассчитал по пикселям из фигмы
    
@@ -42,6 +46,8 @@ fun CatalogCard(
    ) {
       // TODO: Все паддинги, размеры, стили добавить в константы
       var imageSize by remember { mutableStateOf(Size.Zero) }
+      val helper = URIPathHelper()
+      val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(catalog.thumbnailLocalPath)).toString())
 
       AsyncImage(
          modifier = Modifier
@@ -49,7 +55,7 @@ fun CatalogCard(
             .clip(RoundedCornerShape(10.dp))
             .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
             .height(with(LocalDensity.current) { imageSize.width.toDp() }),
-         model = File(catalog.thumbnailLocalPath),
+         model = imageFile,
          contentDescription = "Каталог ${catalog.name}",
          contentScale = ContentScale.Crop
       )
@@ -69,7 +75,7 @@ fun CatalogCard(
             text = catalog.creationDate,
             style = TextStyle(
                fontWeight = FontWeight.W500,
-               fontSize = 18.sp,
+               fontSize = 16.sp,
                color = Color.White
             ),
             maxLines = 1,
