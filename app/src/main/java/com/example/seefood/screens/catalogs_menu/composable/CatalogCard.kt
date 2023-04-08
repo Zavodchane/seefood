@@ -40,7 +40,8 @@ fun CatalogCard(
       modifier = Modifier
          .fillMaxWidth()
          .background(color = Color.Transparent)
-         .clickable { openScreen("$CATALOG_SCREEN/${catalog.name}") },
+         .clickable { openScreen("$CATALOG_SCREEN/${catalog.name}") }
+         .padding(bottom = 15.dp),
       verticalAlignment = Alignment.CenterVertically,
       horizontalArrangement = Arrangement.spacedBy(30.dp)
    ) {
