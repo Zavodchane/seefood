@@ -12,6 +12,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.example.seefood.common.util.URIPathHelper
 import java.util.*
 
 class CameraServiceImpl (
@@ -47,9 +48,12 @@ class CameraServiceImpl (
          ContextCompat.getMainExecutor(context),
          object : ImageCapture.OnImageSavedCallback{
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
+               val helper = URIPathHelper()
+               val path = helper.getPath(context, outputFileResults.savedUri!!)
+
                Toast.makeText(
                   context,
-                  "Saved image ${outputFileResults.savedUri!!}",
+                  "Saved image $path",
                   Toast.LENGTH_SHORT
                ).show()
             }

@@ -1,7 +1,5 @@
 package com.example.seefood
 
-const val SPLASH_SCREEN = "splash"
-
 const val HOME_SCREEN   = "home"
 const val CAMERA_SCREEN = "camera"
 const val RESULT_SCREEN = "result"
