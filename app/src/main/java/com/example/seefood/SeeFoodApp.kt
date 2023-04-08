@@ -144,10 +144,6 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
       CatalogsMenuScreen(openScreen = { route -> appState.navigate(route) })
    }
 
-   composable(SPLASH_SCREEN) {
-
-   }
-
    composable(RESULT_SCREEN) {
 
    }
