@@ -1,6 +1,7 @@
 package com.example.seefood.screens.catalog.composable
 
 import android.net.Uri
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.Text
@@ -21,16 +22,23 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import coil.compose.AsyncImage
+import com.example.seefood.DISH_SCREEN
 import com.example.seefood.common.util.URIPathHelper
 import com.example.seefood.database.objects.Dish
 import java.io.File
 
 @Composable
-fun DishCard(dish : Dish){
+fun DishCard(
+   dish : Dish,
+   openScreen : (String) -> Unit
+){
    Column(
       modifier = Modifier
          .padding(15.dp)
-         .width(100.dp),
+         .width(100.dp)
+         .clickable {
+            openScreen("$DISH_SCREEN/${dish.id}")
+         },
       horizontalAlignment = Alignment.CenterHorizontally
    ) {
       var imageSize by remember { mutableStateOf(Size.Zero) }

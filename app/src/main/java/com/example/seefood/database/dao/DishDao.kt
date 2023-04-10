@@ -22,6 +22,9 @@ interface DishDao {
       }
    }
 
+   @Query("SELECT * FROM dishes WHERE id = :id")
+   fun getDishById(id: Int) : Flow<Dish>
+
    @Query("SELECT * FROM dishes WHERE is_favorite = TRUE")
    fun getFavoriteDishes() : Flow<List<Dish>>
 

@@ -13,7 +13,8 @@ import com.example.seefood.screens.catalog.composable.DishCard
 @Composable
 fun CatalogScreen(
    viewModel: CatalogViewModel = hiltViewModel(),
-   catalogName: String
+   catalogName: String,
+   openScreen: (String) -> Unit
 ){
    val dishes = viewModel.getCatalogsDishesListFlow(catalogName).collectAsState(initial = listOf())
 
@@ -22,7 +23,7 @@ fun CatalogScreen(
       horizontalArrangement = Arrangement.SpaceBetween
    ) {
       dishes.value.forEach { dish ->
-         DishCard(dish = dish)
+         DishCard(dish = dish, openScreen = openScreen)
       }
    }
 }
