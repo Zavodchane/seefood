@@ -61,10 +61,8 @@ fun DishScreen(
 //
 //   AsyncImage(
 //      modifier = Modifier
-//         .fillMaxWidth(0.21f)
-//         .clip(RoundedCornerShape(10.dp))
-//         .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
-//         .height(with(LocalDensity.current) { imageSize.width.toDp() }),
+//         .height(max)
+//         .fillMaxWidth(),
 //      model = imageFile,
 //      contentDescription = relatedDish.value.name,
 //      contentScale = ContentScale.Crop
