@@ -73,7 +73,7 @@ fun CatalogsMenuScreen(
          AlertDialog(
             modifier = Modifier
                .fillMaxWidth()
-               .border(width = 5.dp, color = Color.Black, shape = RoundedCornerShape(20.dp))
+               .border(width = 3.dp, color = Color.Black, shape = RoundedCornerShape(20.dp))
                .padding(2.dp)
                .background(color = Color.White, shape = RoundedCornerShape(20.dp)),
             contentColor = Color.Black,
