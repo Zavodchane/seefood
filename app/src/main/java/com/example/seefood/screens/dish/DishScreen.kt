@@ -1,6 +1,6 @@
 package com.example.seefood.screens.dish
 
-import androidx.compose.foundation.Image
+import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -15,8 +15,8 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.IntOffset
@@ -24,9 +24,12 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
+import coil.compose.AsyncImage
 import com.example.seefood.R
+import com.example.seefood.common.util.URIPathHelper
 import com.example.seefood.database.objects.Dish
 import com.example.seefood.ui.theme.Accent
+import java.io.File
 import kotlin.math.roundToInt
 
 @Composable
@@ -44,31 +47,20 @@ fun DishScreen(
 
    var rowSize by remember { mutableStateOf(Size.Zero) }
 
-   Image( // TODO: Поменять на AsyncImage c путем к картинке из relatedDish (ниже)
-      modifier= Modifier
-         .height(max)
-         .fillMaxWidth()
-         .background(Color.White)
-         .padding(20.dp),
-      painter = painterResource(id = R.drawable.food_mock),
-      contentDescription = null,
-      contentScale = ContentScale.Fit // TODO: ContentScale.Crop
-   )
+   var imageSize by remember { mutableStateOf(Size.Zero) }
 
-//   var imageSize by remember { mutableStateOf(Size.Zero) }
-//   val helper = URIPathHelper()
-//   val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(relatedDish.value.imgLocalPath)).toString())
-//
-//   AsyncImage(
-//      modifier = Modifier
-//         .fillMaxWidth(0.21f)
-//         .clip(RoundedCornerShape(10.dp))
-//         .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
-//         .height(with(LocalDensity.current) { imageSize.width.toDp() }),
-//      model = imageFile,
-//      contentDescription = relatedDish.value.name,
-//      contentScale = ContentScale.Crop
-//   )
+   val helper    = URIPathHelper()
+   val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(relatedDish.value.imgLocalPath)).toString())
+
+   AsyncImage(
+      modifier = Modifier
+         .fillMaxWidth()
+         .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
+         .height(with(LocalDensity.current) { imageSize.width.toDp() }),
+      model = R.drawable.food_mock,
+      contentDescription = relatedDish.value.name,
+      contentScale = ContentScale.Crop
+   )
 
    Box(
       modifier = Modifier
@@ -119,7 +111,6 @@ fun DishScreen(
                   )
                }
             }
-
          }
       }
    }
