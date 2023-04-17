@@ -24,22 +24,6 @@ class CatalogsMenuViewModel
    private val dishRepository: DishRepository
 ) : ViewModel(), CatalogsMenuViewModelAbstract {
 
-   init {
-      viewModelScope.launch {
-         dishRepository.upsertDish(
-            Dish(
-               name = "Some name 1",
-               recipe = "Some recipe 1",
-               imgLocalPath = "",
-               catalog = "Some Catalog",
-               isFavorite = false,
-
-               id = 1
-            )
-         )
-      }
-   }
-
    override val catalogsListFlow: Flow<List<Catalog>>
       get() = catalogRepository.getAllCatalogs()
 

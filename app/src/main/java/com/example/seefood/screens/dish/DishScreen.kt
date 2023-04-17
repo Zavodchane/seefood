@@ -7,7 +7,11 @@ import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.Text
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.Delete
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -15,6 +19,7 @@ import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
@@ -39,7 +44,7 @@ fun DishScreen(
 ) {
    val relatedDish = viewModel.getRelatedDish(dishId = dishId).collectAsState(initial = Dish())
 
-   val max = 420.dp
+   val max = LocalConfiguration.current.screenHeightDp.dp / 2
    val min = 0.dp
 
    val (minPx, maxPx) = with(LocalDensity.current) { min.toPx() to max.toPx() }
@@ -52,15 +57,28 @@ fun DishScreen(
    val helper    = URIPathHelper()
    val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(relatedDish.value.imgLocalPath)).toString())
 
-   AsyncImage(
-      modifier = Modifier
-         .fillMaxWidth()
-         .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
-         .height(with(LocalDensity.current) { imageSize.width.toDp() }),
-      model = R.drawable.food_mock,
-      contentDescription = relatedDish.value.name,
-      contentScale = ContentScale.Crop
-   )
+   Box(
+      modifier = Modifier.background(color = Color.White)
+   ) {
+      AsyncImage(
+         modifier = Modifier
+            .fillMaxWidth()
+            .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
+            .height(max),
+         model = R.drawable.food_mock, // imageFile
+         contentDescription = relatedDish.value.name,
+         contentScale = ContentScale.Crop
+      )
+
+      IconButton(
+         modifier = Modifier
+            .padding(10.dp)
+            .align(Alignment.BottomEnd),
+         onClick = { viewModel.removeDishFromCatalog(relatedDish.value) }
+      ) {
+         Icon(imageVector = Icons.Rounded.Delete, contentDescription = "убрать из каталога")
+      }
+   }
 
    Box(
       modifier = Modifier
