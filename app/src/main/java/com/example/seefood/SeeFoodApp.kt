@@ -34,6 +34,7 @@ import com.example.seefood.screens.favorites.FavoritesScreen
 import com.example.seefood.screens.camera.CameraScreen
 import com.example.seefood.screens.catalog.CatalogScreen
 import com.example.seefood.screens.catalogs_menu.CatalogsMenuScreen
+import com.example.seefood.screens.dish.DishScreen
 import com.example.seefood.screens.home.HomeScreen
 import com.example.seefood.ui.theme.Background
 import com.example.seefood.ui.theme.SeefoodTheme
@@ -144,16 +145,24 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
       CatalogsMenuScreen(openScreen = { route -> appState.navigate(route) })
    }
 
-   composable(RESULT_SCREEN) {
-
-   }
-
    composable(
       "$CATALOG_SCREEN$CATALOG_SCREEN_ARGS",
       arguments = listOf(navArgument(name = "catalogName"){ type = NavType.StringType })
    ) {
       val catalogName = it.arguments?.getString("catalogName").toString()
-      CatalogScreen(catalogName = catalogName)
+      CatalogScreen(catalogName = catalogName, openScreen = { route -> appState.navigate(route) })
+   }
+
+   composable(RESULT_SCREEN) {
+
+   }
+
+   composable(
+      "$DISH_SCREEN$DISH_SCREEN_ARGS",
+      arguments = listOf(navArgument(name = "dishId"){ type = NavType.IntType })
+   ) {
+      val dishId = it.arguments?.getInt("dishId")!!
+      DishScreen(dishId = dishId)
    }
 
    composable(FAVORITES_SCREEN) {

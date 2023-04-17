@@ -168,7 +168,6 @@ fun CatalogsMenuScreen(
                               viewModel.addCatalog(
                                  Catalog(
                                     name = name,
-                                    creationDate = "today",
                                     thumbnailLocalPath = imageUri.toString()
                                  )
                               )

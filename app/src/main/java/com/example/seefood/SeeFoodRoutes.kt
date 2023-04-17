@@ -8,5 +8,8 @@ const val CATALOG_MENU_SCREEN = "catalog_menu"
 const val CATALOG_SCREEN      = "catalog"
 const val CATALOG_SCREEN_ARGS = "/{catalogName}"
 
+const val DISH_SCREEN         = "dish"
+const val DISH_SCREEN_ARGS    = "/{dishId}"
+
 const val FAVORITES_SCREEN    = "favorites"
 
