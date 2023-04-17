@@ -15,7 +15,11 @@ class SeeFoodAppState(
    val context: Context,
    val coroutineScope: CoroutineScope
 ) {
-   fun navigate(route: String){
+   fun navigate(route: String) {
       navController.navigate(route) { launchSingleTop = true }
+   }
+
+   fun navigateBack(){
+      navController.navigateUp()
    }
 }

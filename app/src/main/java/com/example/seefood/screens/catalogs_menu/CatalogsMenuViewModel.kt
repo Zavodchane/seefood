@@ -55,7 +55,7 @@ class CatalogsMenuViewModel
                dishRepository.deleteDish(dish)
             }
          }
-         catalogRepository.deleteCatalog(catalog = catalog)
+         catalogRepository.deleteCatalogByName(name = catalog.name)
       }
    }
 }

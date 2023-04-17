@@ -1,6 +1,5 @@
 package com.example.seefood.screens.dish
 
-import android.net.Uri
 import androidx.compose.foundation.background
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
@@ -20,7 +19,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.layout.onGloballyPositioned
 import androidx.compose.ui.platform.LocalConfiguration
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -31,16 +29,15 @@ import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.seefood.R
-import com.example.seefood.common.util.URIPathHelper
 import com.example.seefood.database.objects.Dish
 import com.example.seefood.ui.theme.Accent
-import java.io.File
 import kotlin.math.roundToInt
 
 @Composable
 fun DishScreen(
    viewModel: DishViewModel = hiltViewModel(),
-   dishId: Int
+   dishId: Int,
+   onDishDelete : () -> Unit
 ) {
    val relatedDish = viewModel.getRelatedDish(dishId = dishId).collectAsState(initial = Dish())
 
@@ -54,8 +51,8 @@ fun DishScreen(
 
    var imageSize by remember { mutableStateOf(Size.Zero) }
 
-   val helper    = URIPathHelper()
-   val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(relatedDish.value.imgLocalPath)).toString())
+//   val helper    = URIPathHelper()
+//   val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(relatedDish.value.imgLocalPath)).toString())
 
    Box(
       modifier = Modifier.background(color = Color.White)
@@ -66,7 +63,7 @@ fun DishScreen(
             .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
             .height(max),
          model = R.drawable.food_mock, // imageFile
-         contentDescription = relatedDish.value.name,
+         contentDescription = relatedDish.value?.name,
          contentScale = ContentScale.Crop
       )
 
@@ -74,7 +71,10 @@ fun DishScreen(
          modifier = Modifier
             .padding(10.dp)
             .align(Alignment.BottomEnd),
-         onClick = { viewModel.removeDishFromCatalog(relatedDish.value) }
+         onClick = {
+            onDishDelete()
+            relatedDish.value?.let { viewModel.removeDishFromCatalog(it) }
+         }
       ) {
          Icon(imageVector = Icons.Rounded.Delete, contentDescription = "убрать из каталога")
       }
@@ -116,17 +116,21 @@ fun DishScreen(
          Column(
             modifier = Modifier.padding(horizontal = 20.dp)
          ){
-            Text(
-               text = relatedDish.value.name,
-               style = TextStyle(color = Color.White, fontSize = 26.sp, fontWeight = FontWeight.W700)
-            )
+            relatedDish.value?.let {
+               Text(
+                  text = it.name,
+                  style = TextStyle(color = Color.White, fontSize = 26.sp, fontWeight = FontWeight.W700)
+               )
+            }
 
             LazyColumn {
-               item { 
-                  Text(
-                     text = relatedDish.value.recipe,
-                     style = TextStyle(color = Color.White, fontSize = 18.sp)
-                  )
+               item {
+                  relatedDish.value?.let {
+                     Text(
+                        text = it.recipe,
+                        style = TextStyle(color = Color.White, fontSize = 18.sp)
+                     )
+                  }
                }
             }
          }

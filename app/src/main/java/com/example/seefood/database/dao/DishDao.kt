@@ -14,7 +14,7 @@ interface DishDao {
    @Upsert
    suspend fun upsertDish(dish: Dish)
 
-   @Delete
+   @Delete // Так же как в каталогах думаю будет, пока не проверял, но заранее меняю на новую функцию удаления
    suspend fun deleteDish(dish: Dish) {
       val file = File(dish.imgLocalPath)
       if (file.exists()) {
@@ -22,8 +22,11 @@ interface DishDao {
       }
    }
 
+   @Query("DELETE FROM dishes WHERE id = :id")
+   suspend fun deleteDishById(id: Int)
+
    @Query("SELECT * FROM dishes WHERE id = :id")
-   fun getDishById(id: Int) : Flow<Dish>
+   fun getDishById(id: Int) : Flow<Dish?>
 
    @Query("SELECT * FROM dishes WHERE is_favorite = TRUE")
    fun getFavoriteDishes() : Flow<List<Dish>>

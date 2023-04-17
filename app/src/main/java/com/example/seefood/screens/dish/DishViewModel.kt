@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 interface DishViewModelAbstract {
-   fun getRelatedDish(dishId : Int) : Flow<Dish>
+   fun getRelatedDish(dishId : Int) : Flow<Dish?>
 
    fun removeDishFromCatalog(dish: Dish)
 }
@@ -18,9 +18,9 @@ interface DishViewModelAbstract {
 @HiltViewModel
 class DishViewModel
 @Inject constructor(
-   private val dishRepository: DishRepository
+   private val dishRepository: DishRepository,
 ) : ViewModel(), DishViewModelAbstract {
-   override fun getRelatedDish(dishId: Int): Flow<Dish> {
+   override fun getRelatedDish(dishId: Int): Flow<Dish?> {
       return dishRepository.getDishById(dishId)
    }
 
@@ -40,7 +40,7 @@ class DishViewModel
             )
          }
          else {
-            dishRepository.deleteDish(dish)
+            dishRepository.deleteDishById(dish.id)
          }
       }
    }

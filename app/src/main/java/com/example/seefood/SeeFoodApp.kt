@@ -162,7 +162,7 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
       arguments = listOf(navArgument(name = "dishId"){ type = NavType.IntType })
    ) {
       val dishId = it.arguments?.getInt("dishId")!!
-      DishScreen(dishId = dishId)
+      DishScreen(dishId = dishId, onDishDelete = { appState.navigateBack() })
    }
 
    composable(FAVORITES_SCREEN) {

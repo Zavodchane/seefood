@@ -13,8 +13,11 @@ interface CatalogDao {
    @Upsert
    suspend fun upsertCatalog(catalog: Catalog)
 
-   @Delete
+   @Delete // Не работает если передавать копию объекта переделал в функцию ниже
    suspend fun deleteCatalog(catalog: Catalog)
+
+   @Query("DELETE FROM catalogs WHERE name = :name")
+   suspend fun deleteCatalogByName(name: String)
 
    @Query("SELECT * FROM catalogs")
    fun getAllCatalogs() : Flow<List<Catalog>>
