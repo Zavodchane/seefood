@@ -39,50 +39,55 @@ fun CatalogCard(
 ) {
    Row(
       modifier = Modifier
-         .fillMaxWidth(0.9f)
+         .fillMaxWidth()
          .background(color = Color.Transparent)
          .clickable { openScreen("$CATALOG_SCREEN/${catalog.name}") }
          .padding(bottom = 15.dp),
       verticalAlignment = Alignment.CenterVertically,
-      horizontalArrangement = Arrangement.spacedBy(30.dp)
+      horizontalArrangement = Arrangement.SpaceBetween
    ) {
       // TODO: Все паддинги, размеры, стили добавить в константы
-      var imageSize by remember { mutableStateOf(Size.Zero) }
-      val helper = URIPathHelper()
-      val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(catalog.thumbnailLocalPath)).toString())
+      Row(
+         horizontalArrangement = Arrangement.spacedBy(30.dp)
+      ) {
+         var imageSize by remember { mutableStateOf(Size.Zero) }
+         val helper = URIPathHelper()
+         val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(catalog.thumbnailLocalPath)).toString())
 
-      AsyncImage(
-         modifier = Modifier
-            .fillMaxWidth(0.21f)
-            .clip(RoundedCornerShape(10.dp))
-            .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
-            .height(with(LocalDensity.current) { imageSize.width.toDp() }),
-         model = imageFile,
-         contentDescription = "Каталог ${catalog.name}",
-         contentScale = ContentScale.Crop
-      )
+         AsyncImage(
+            modifier = Modifier
+               .fillMaxWidth(0.21f)
+               .clip(RoundedCornerShape(10.dp))
+               .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
+               .height(with(LocalDensity.current) { imageSize.width.toDp() }),
+            model = imageFile,
+            contentDescription = "Каталог ${catalog.name}",
+            contentScale = ContentScale.Crop
+         )
 
-      Column {
-         Text(
-            text = catalog.name,
-            style = TextStyle(
-               fontWeight = FontWeight.W500,
-               fontSize = 22.sp,
-               color = Color.White
-            ),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-         )
-         Text(
-            text = catalog.creationDate,
-            style = TextStyle(
-               fontWeight = FontWeight.W500,
-               fontSize = 16.sp,
-               color = Color.White
-            ),
-            maxLines = 1,
-            overflow = TextOverflow.Ellipsis
-         )
+         Column {
+            Text(
+               modifier = Modifier.fillMaxWidth(0.8f),
+               text = catalog.name,
+               style = TextStyle(
+                  fontWeight = FontWeight.W500,
+                  fontSize = 22.sp,
+                  color = Color.White
+               ),
+               maxLines = 1,
+               overflow = TextOverflow.Ellipsis
+            )
+            Text(
+               text = catalog.creationDate,
+               style = TextStyle(
+                  fontWeight = FontWeight.W500,
+                  fontSize = 16.sp,
+                  color = Color.White
+               ),
+               maxLines = 1,
+               overflow = TextOverflow.Ellipsis
+            )
+         }
       }
 
       Box(
@@ -107,6 +112,7 @@ fun CatalogCard(
             val context = LocalContext.current
             DropdownMenuItem(
                onClick = {
+                  dropdownExpanded = false
                   deleteCatalog()
                   Toast.makeText(context, "Удален каталог ${catalog.name}", Toast.LENGTH_SHORT).show()
                }){
