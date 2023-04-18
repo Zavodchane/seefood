@@ -62,14 +62,12 @@ object SeeFoodCameraModule {
       cameraProvider: ProcessCameraProvider,
       selector: CameraSelector,
       imageCapture: ImageCapture,
-//      imageAnalysis: ImageAnalysis,
       preview: Preview
    ): CameraService {
       return CameraServiceImpl (
          cameraProvider,
          selector,
          preview,
-//         imageAnalysis,
          imageCapture
       )
    }

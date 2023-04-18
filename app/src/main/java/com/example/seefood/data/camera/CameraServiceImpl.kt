@@ -19,7 +19,6 @@ class CameraServiceImpl (
    private val cameraProvider: ProcessCameraProvider,
    private val selector: CameraSelector,
    private val preview: Preview,
-//   private val imageAnalysis: ImageAnalysis,
    private val imageCapture: ImageCapture
 ): CameraService {
 
@@ -80,7 +79,6 @@ class CameraServiceImpl (
             lifecycleOwner,
             selector,
             preview,
-//            imageAnalysis,
             imageCapture
          )
       }catch (e:Exception){

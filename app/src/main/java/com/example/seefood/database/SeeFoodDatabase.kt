@@ -15,7 +15,7 @@ import com.example.seefood.database.objects.Dish
 )
 abstract class SeeFoodDatabase : RoomDatabase() {
 
-   abstract val dishDao     : DishDao
+   abstract val dishDao    : DishDao
    abstract val catalogDao : CatalogDao
 
    companion object {
