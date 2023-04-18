@@ -10,7 +10,6 @@ import java.io.File
 
 @Dao
 interface DishDao {
-
    @Upsert
    suspend fun upsertDish(dish: Dish)
 
