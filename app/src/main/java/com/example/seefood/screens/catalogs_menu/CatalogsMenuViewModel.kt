@@ -52,7 +52,7 @@ class CatalogsMenuViewModel
                )
             }
             else {
-               dishRepository.deleteDish(dish)
+               dishRepository.deleteDishById(dish.id)
             }
          }
          catalogRepository.deleteCatalogByName(name = catalog.name)

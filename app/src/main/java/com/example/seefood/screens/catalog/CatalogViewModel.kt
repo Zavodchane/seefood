@@ -28,7 +28,7 @@ class CatalogViewModel
    override fun removeDishFromCatalog(dish: Dish) {
       viewModelScope.launch {
          if (!dish.isFavorite){
-            viewModelScope.launch { dishRepository.deleteDish(dish) }
+            viewModelScope.launch { dishRepository.deleteDishById(dish.id) }
          }
          else {
             viewModelScope.launch {

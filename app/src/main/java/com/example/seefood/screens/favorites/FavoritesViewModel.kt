@@ -25,7 +25,7 @@ class FavoritesViewModel
 
    override fun unfavoriteDish(dish: Dish) {
       if (dish.catalog == ""){
-         viewModelScope.launch { dishRepository.deleteDish(dish) }
+         viewModelScope.launch { dishRepository.deleteDishById(dish.id) }
       }
       else {
          viewModelScope.launch {
