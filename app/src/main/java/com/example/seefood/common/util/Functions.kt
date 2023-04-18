@@ -1,4 +1,4 @@
-package com.example.seefood.common.composable
+package com.example.seefood.common.util
 
 import java.text.SimpleDateFormat
 import java.util.*

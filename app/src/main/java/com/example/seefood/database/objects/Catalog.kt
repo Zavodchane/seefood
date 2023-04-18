@@ -2,7 +2,7 @@ package com.example.seefood.database.objects
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.example.seefood.common.composable.getCurrentDateAsString
+import com.example.seefood.common.util.getCurrentDateAsString
 
 @Entity(tableName = "catalogs")
 data class Catalog (
