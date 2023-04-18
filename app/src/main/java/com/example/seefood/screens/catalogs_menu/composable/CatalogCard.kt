@@ -1,11 +1,14 @@
 package com.example.seefood.screens.catalogs_menu.composable
 
 import android.net.Uri
+import android.widget.Toast
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.Text
+import androidx.compose.material.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.rounded.MoreVert
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -32,13 +35,11 @@ import java.io.File
 fun CatalogCard(
    catalog    : Catalog,
    openScreen : (String) -> Unit,
-
+   deleteCatalog : () -> Unit
 ) {
-   // 0.21f для картинки, рассчитал по пикселям из фигмы
-   
    Row(
       modifier = Modifier
-         .fillMaxWidth()
+         .fillMaxWidth(0.9f)
          .background(color = Color.Transparent)
          .clickable { openScreen("$CATALOG_SCREEN/${catalog.name}") }
          .padding(bottom = 15.dp),
@@ -82,6 +83,36 @@ fun CatalogCard(
             maxLines = 1,
             overflow = TextOverflow.Ellipsis
          )
+      }
+
+      Box(
+         modifier = Modifier
+            .fillMaxWidth()
+            .wrapContentSize(align = Alignment.TopEnd)
+      ){
+         var dropdownExpanded by remember { mutableStateOf(false) }
+
+         IconButton(onClick = { dropdownExpanded = !dropdownExpanded }) {
+            Icon(
+               imageVector = Icons.Rounded.MoreVert,
+               contentDescription = "Опции каталога",
+               tint = Color.White
+            )
+         }
+
+         DropdownMenu(
+            expanded = dropdownExpanded,
+            onDismissRequest = { dropdownExpanded = false }
+         ) {
+            val context = LocalContext.current
+            DropdownMenuItem(
+               onClick = {
+                  deleteCatalog()
+                  Toast.makeText(context, "Удален каталог ${catalog.name}", Toast.LENGTH_SHORT).show()
+               }){
+               Text(text = "Удалить")
+            }
+         }
       }
    }
 }

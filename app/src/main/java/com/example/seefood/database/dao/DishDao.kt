@@ -25,6 +25,9 @@ interface DishDao {
    @Query("DELETE FROM dishes WHERE id = :id")
    suspend fun deleteDishById(id: Int)
 
+   @Query("SELECT * FROM dishes WHERE catalog = :catalogName")
+   suspend fun getDishesByCatalogNameList(catalogName: String) : List<Dish>
+
    @Query("SELECT * FROM dishes WHERE id = :id")
    fun getDishById(id: Int) : Flow<Dish?>
 

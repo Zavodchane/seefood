@@ -195,7 +195,11 @@ fun CatalogsMenuScreen(
       contentPadding = PaddingValues(start = 30.dp, end = with (LocalDensity.current) { colSize.width.toDp() / 8f } )
    ) {
       items(catalogsListState.value.size) { catalogIdx ->
-         CatalogCard(catalog = catalogsListState.value[catalogIdx], openScreen = openScreen)
+         CatalogCard(
+            catalog = catalogsListState.value[catalogIdx],
+            openScreen = openScreen,
+            deleteCatalog = { viewModel.deleteCatalog(catalogsListState.value[catalogIdx]) }
+         )
       }
    }
 }

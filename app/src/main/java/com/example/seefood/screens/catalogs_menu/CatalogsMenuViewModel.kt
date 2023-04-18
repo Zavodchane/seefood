@@ -34,8 +34,7 @@ class CatalogsMenuViewModel
    }
    override fun deleteCatalog(catalog: Catalog) {
       viewModelScope.launch {
-         var catalogsDishesList = listOf<Dish>()
-         dishRepository.getDishesByCatalogName(catalogName = catalog.name).collect{ value -> catalogsDishesList = value }
+         val catalogsDishesList = dishRepository.getDishesByCatalogNameList(catalogName = catalog.name)
 
          for (dish in catalogsDishesList) {
             if (dish.isFavorite) {
@@ -55,6 +54,7 @@ class CatalogsMenuViewModel
                dishRepository.deleteDishById(dish.id)
             }
          }
+         println("in2")
          catalogRepository.deleteCatalogByName(name = catalog.name)
       }
    }

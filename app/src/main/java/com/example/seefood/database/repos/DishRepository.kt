@@ -10,6 +10,7 @@ class DishRepository(
    suspend fun upsertDish(dish: Dish)   = dishDao.upsertDish(dish = dish)
    suspend fun deleteDish(dish: Dish)   = dishDao.deleteDish(dish = dish)
    suspend fun deleteDishById(id : Int) = dishDao.deleteDishById(id = id)
+   suspend fun getDishesByCatalogNameList(catalogName: String) = dishDao.getDishesByCatalogNameList(catalogName = catalogName)
 
    fun getDishById(id: Int) = dishDao.getDishById(id = id)
    fun getFavoriteDishes() : Flow<List<Dish>> = dishDao.getFavoriteDishes()
