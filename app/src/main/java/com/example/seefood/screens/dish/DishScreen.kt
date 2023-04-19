@@ -62,7 +62,7 @@ fun DishScreen(
             .fillMaxWidth()
             .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
             .height(max),
-         model = R.drawable.food_mock, // imageFile
+         model = R.drawable.food_mock, // imageFile // TODO: Заменить заглушку на нормальное фото блюда из пути
          contentDescription = relatedDish.value?.name,
          contentScale = ContentScale.Crop
       )
