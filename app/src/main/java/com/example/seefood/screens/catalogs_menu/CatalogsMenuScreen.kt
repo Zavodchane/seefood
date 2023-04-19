@@ -42,7 +42,6 @@ fun CatalogsMenuScreen(
 
    var colSize by remember { mutableStateOf(Size.Zero) }
 
-
    // TODO: Добавить в константы все паддинги и цвета, может создать ext Modifier'ы
    Column(
       modifier = Modifier
