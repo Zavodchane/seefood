@@ -8,17 +8,13 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.layout.onGloballyPositioned
-import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.unit.toSize
 import coil.compose.AsyncImage
 import com.example.seefood.DISH_SCREEN
 import com.example.seefood.R
@@ -29,26 +25,26 @@ fun DishCard(
    dish : Dish,
    openScreen : (String) -> Unit
 ){
+   val universal = 100.dp
+
    Column(
       modifier = Modifier
          .padding(15.dp)
-         .width(100.dp)
+         .width(universal)
          .clickable {
             openScreen("$DISH_SCREEN/${dish.id}")
          },
       horizontalAlignment = Alignment.CenterHorizontally
    ) {
-      var imageSize by remember { mutableStateOf(Size.Zero) }
 //      val helper = URIPathHelper()
 //      val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(dish.imgLocalPath)).toString())
 
       AsyncImage(
          modifier = Modifier
-            .fillMaxWidth()
+            .width(universal)
             .clip(RoundedCornerShape(10.dp))
-            .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
-            .height(with(LocalDensity.current) { imageSize.width.toDp() }),
-         model = R.drawable.food_mock, // imageFile
+            .height(universal),
+         model = R.drawable.food_mock, // imageFile // TODO: Потом переделать под картинку из пути
          contentDescription = dish.name,
          contentScale = ContentScale.Crop
       )
