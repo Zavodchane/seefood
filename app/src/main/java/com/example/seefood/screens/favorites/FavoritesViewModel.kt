@@ -20,6 +20,18 @@ class FavoritesViewModel
    private val dishRepository: DishRepository
 ) : ViewModel(), FavoritesViewModelAbstract {
 
+   init {
+      viewModelScope.launch {
+         dishRepository.upsertDish(
+            Dish(
+               name = "Some random name",
+               isFavorite = true,
+               id = 3
+            )
+         )
+      }
+   }
+
    override val dishesListFlow: Flow<List<Dish>>
       get() = dishRepository.getFavoriteDishes()
 

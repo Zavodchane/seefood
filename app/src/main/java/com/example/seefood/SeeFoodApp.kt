@@ -166,6 +166,6 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    }
 
    composable(FAVORITES_SCREEN) {
-      FavoritesScreen()
+      FavoritesScreen(openScreen = { route -> appState.navigate(route) })
    }
 }
