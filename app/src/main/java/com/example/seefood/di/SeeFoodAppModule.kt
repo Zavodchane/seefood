@@ -32,6 +32,8 @@ object SeeFoodAppModule {
     // Это пока что лучше не трогать, потому что конвертер может поменяться как и базовая ссылка
    /**
     * Функция - провайдер Retrofit интерфейса для обращения к API SeeFood
+    *
+    * @param[baseUrl] базовая ссылка
     */
     @Provides
     @Singleton
@@ -54,6 +56,11 @@ object SeeFoodAppModule {
         return SeeFoodDatabase.getInstance(app.applicationContext)
     }
 
+   /**
+    * Функция провайдер репозитория для доступа к таблице блюд
+    *
+    * @return[DishRepository]
+    */
     @Provides
     @Singleton
     fun provideDishRepository(
@@ -62,12 +69,22 @@ object SeeFoodAppModule {
         return DishRepository(dishDao = dishDao)
     }
 
+   /**
+    * Функция провайдер интерфейса для доступа к таблице блюд
+    *
+    * @return[DishDao]
+    */
     @Provides
     @Singleton
     fun provideDishDao(seeFoodDatabase: SeeFoodDatabase) : DishDao {
         return seeFoodDatabase.dishDao
     }
 
+   /**
+    * Функция провайдер репозитория для доступа к таблице каталогов
+    *
+    * @return[CatalogRepository]
+    */
    @Provides
    @Singleton
    fun provideCategoryRepository(
@@ -76,6 +93,11 @@ object SeeFoodAppModule {
       return CatalogRepository(catalogDao = catalogDao)
    }
 
+   /**
+    * Функция провайдер интерфейса для доступа к таблице каталогов
+    *
+    * @return[CatalogDao]
+    */
    @Provides
    @Singleton
    fun provideCategoryDao(seeFoodDatabase: SeeFoodDatabase) : CatalogDao {
