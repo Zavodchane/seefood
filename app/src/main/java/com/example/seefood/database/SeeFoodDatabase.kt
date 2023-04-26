@@ -9,6 +9,9 @@ import com.example.seefood.database.dao.DishDao
 import com.example.seefood.database.objects.Catalog
 import com.example.seefood.database.objects.Dish
 
+/**
+ * Класс локальной базы данных приложения
+ */
 @Database(
    entities = [Dish::class, Catalog::class],
    version  = 1
@@ -21,6 +24,9 @@ abstract class SeeFoodDatabase : RoomDatabase() {
    companion object {
       private var INSTANCE: SeeFoodDatabase? = null
 
+      /**
+       * Функция получения экземпляра БД
+       */
       fun getInstance(context: Context) : SeeFoodDatabase {
          if (INSTANCE == null) {
             INSTANCE = Room.databaseBuilder(context, SeeFoodDatabase::class.java, "dishdata.db")
