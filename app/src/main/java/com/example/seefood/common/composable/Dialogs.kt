@@ -14,6 +14,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.seefood.ui.theme.Background
 
+/**
+ * Диалог уверенности в действии пользователя
+ *
+ * @param[onConfirm] действие при подтверждении
+ * @param[onDismiss] действие при отмене
+ * @param[titleText] текст заголовка
+ */
 @Composable
 fun AreYouSureDialog(
    onDismiss: () -> Unit,

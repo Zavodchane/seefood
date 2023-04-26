@@ -13,7 +13,7 @@ import coil.compose.AsyncImage
  *
  * @param[buttonSkin] путь в картинке для кнопки
  * @param[modifier] модификатор кнопки
- * @param[contentDescription] описание контента (default)
+ * @param[contentDescription] описание контента
  * @param[onClick] функция выполняемая при нажатии
  */
 @Composable
