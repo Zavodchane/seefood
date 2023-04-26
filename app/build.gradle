@@ -3,6 +3,7 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'com.google.dagger.hilt.android'
+    id("org.jetbrains.dokka") version "$dokka_version"
 }
 
 android {
@@ -48,6 +49,13 @@ android {
     }
 }
 
+dokkaHtml.configure {
+    dokkaSourceSets {
+        configureEach {
+            includes.from("MODULE.md")
+        }
+    }
+}
 
 dependencies {
 
@@ -101,4 +109,7 @@ dependencies {
     implementation("androidx.room:room-runtime:$room_version")
     kapt("androidx.room:room-compiler:$room_version")
     implementation("androidx.room:room-ktx:$room_version")
+
+    // Dokka
+    dokkaPlugin("org.jetbrains.dokka:android-documentation-plugin:1.8.10")
 }

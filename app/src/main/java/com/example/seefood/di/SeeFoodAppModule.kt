@@ -15,15 +15,24 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
 
+/**
+ * Модуль внедрения зависимостей для всего приложения кроме камеры
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object SeeFoodAppModule {
 
    // TODO: Добавить базовую ссылку, возможно только после создания API (Влад момент :) )
+   /**
+    * Функция предоставляющая базовую ссылку для обращения через Retrofit
+    */
    @Provides
    fun baseUrl() = ""
 
     // Это пока что лучше не трогать, потому что конвертер может поменяться как и базовая ссылка
+   /**
+    * Функция - провайдер Retrofit интерфейса для обращения к API SeeFood
+    */
     @Provides
     @Singleton
     fun provideRetrofit(baseUrl: String) : ApiService =
@@ -34,6 +43,11 @@ object SeeFoodAppModule {
             .create(ApiService::class.java)
 
 
+   /**
+    * Функция провайдер экземпляра локальной БД
+    *
+    * @return Экземпляр [SeeFoodDatabase]
+    */
     @Provides
     @Singleton
     fun provideSeeFoodDatabase(app: Application) : SeeFoodDatabase {
