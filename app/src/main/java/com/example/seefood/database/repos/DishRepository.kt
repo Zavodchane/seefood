@@ -8,7 +8,6 @@ class DishRepository(
    private val dishDao: DishDao
 ) {
    suspend fun upsertDish(dish: Dish)   = dishDao.upsertDish(dish = dish)
-   suspend fun deleteDish(dish: Dish)   = dishDao.deleteDish(dish = dish)
    suspend fun deleteDishById(id : Int) = dishDao.deleteDishById(id = id)
    suspend fun getDishesByCatalogNameList(catalogName: String) = dishDao.getDishesByCatalogNameList(catalogName = catalogName)
 

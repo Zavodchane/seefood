@@ -13,11 +13,18 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
-
+/**
+ * Модуль внедрения зависимостей для камеры
+ */
 @Module
 @InstallIn(SingletonComponent::class)
 object SeeFoodCameraModule {
 
+   /**
+    * Функция провайдер для объекта [CameraSelector] (задней камеры смартфона)
+    *
+    * @return[CameraSelector]
+    */
    @Provides
    @Singleton
    fun provideCameraSelector(): CameraSelector {
@@ -26,6 +33,11 @@ object SeeFoodCameraModule {
          .build()
    }
 
+   /**
+    * Функция провайдер для объекта [ProcessCameraProvider]
+    *
+    * @return[ProcessCameraProvider]
+    */
    @Provides
    @Singleton
    fun provideCameraProvider(application: Application)
@@ -34,12 +46,22 @@ object SeeFoodCameraModule {
 
    }
 
+   /**
+    * Функция провайдер предпрасмотра для камеры
+    *
+    * @return[Preview]
+    */
    @Provides
    @Singleton
    fun provideCameraPreview(): Preview {
       return Preview.Builder().build()
    }
 
+   /**
+    * Функция провайдер для объекта [ImageCapture] (use case для фотографирования)
+    *
+    * @return[ImageCapture]
+    */
    @Provides
    @Singleton
    fun provideImageCapture(): ImageCapture {
@@ -48,6 +70,11 @@ object SeeFoodCameraModule {
          .build()
    }
 
+   /**
+    * Функция провайдер для объекта [ImageAnalysis]
+    *
+    * @return[ImageAnalysis]
+    */
    @Provides
    @Singleton
    fun provideImageAnalysis(): ImageAnalysis {
@@ -56,6 +83,16 @@ object SeeFoodCameraModule {
          .build()
    }
 
+   /**
+    * Функция провайдер для сервиса камеры [CameraService]
+    *
+    * @param[cameraProvider]
+    * @param[selector]
+    * @param[imageCapture]
+    * @param[preview]
+    *
+    * @return[CameraServiceImpl]
+    */
    @Provides
    @Singleton
    fun provideCustomCameraRepo(

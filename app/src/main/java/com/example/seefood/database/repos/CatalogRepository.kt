@@ -7,7 +7,6 @@ class CatalogRepository(
    private val catalogDao: CatalogDao
 ) {
    suspend fun upsertCatalog(catalog: Catalog) = catalogDao.upsertCatalog(catalog = catalog)
-   suspend fun deleteCatalog(catalog: Catalog) = catalogDao.deleteCatalog(catalog = catalog)
    suspend fun deleteCatalogByName(name: String) = catalogDao.deleteCatalogByName(name = name)
 
    fun getAllCatalogs() = catalogDao.getAllCatalogs()

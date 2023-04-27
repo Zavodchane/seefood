@@ -8,13 +8,20 @@ import android.os.Environment
 import android.provider.DocumentsContract
 import android.provider.MediaStore
 
+/**
+ * Вспомогательный класс для получения пути по [Uri]
+ */
 class URIPathHelper {
 
+   /**
+    * Метод получения пути по [Uri]
+    *
+    * @param[context] контекст
+    * @param[uri] [Uri] по которому требуется получить локальный путь
+    */
    fun getPath(context: Context, uri: Uri): String? {
-      val isKitKatorAbove = true
-
       // DocumentProvider
-      if (isKitKatorAbove && DocumentsContract.isDocumentUri(context, uri)) {
+      if (DocumentsContract.isDocumentUri(context, uri)) {
          // ExternalStorageProvider
          if (isExternalStorageDocument(uri)) {
             val docId = DocumentsContract.getDocumentId(uri)
