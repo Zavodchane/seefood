@@ -15,6 +15,14 @@ import androidx.lifecycle.LifecycleOwner
 import com.example.seefood.common.util.URIPathHelper
 import java.util.*
 
+/**
+ * Имплементация интерфейса взаимодействия с камерой
+ *
+ * @param[cameraProvider]
+ * @param[selector]
+ * @param[preview]
+ * @param[imageCapture]
+ */
 class CameraServiceImpl (
    private val cameraProvider: ProcessCameraProvider,
    private val selector: CameraSelector,
