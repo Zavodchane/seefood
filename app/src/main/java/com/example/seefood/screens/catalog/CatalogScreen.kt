@@ -9,6 +9,13 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.seefood.screens.catalog.composable.DishCard
 
+/**
+ * Экран каталога (UI представление)
+ *
+ * @param[viewModel] модель представления, предоставляется с помощью Hilt
+ * @param[catalogName] имя каталога содержимое которого нужно отобразить
+ * @param[openScreen] функция для передачи карточке блюда для открытия экрана соответствующего блюда
+ */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun CatalogScreen(

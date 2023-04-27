@@ -9,6 +9,12 @@ import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.seefood.screens.favorites.composable.FavoriteDishCard
 
+/**
+ * Экран избранного (UI представление)
+ *
+ * @param[viewModel] модель представления, предоставляется с помощью Hilt
+ * @param[openScreen] функция открытия экрана блюда, передается карточке
+ */
 @OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun FavoritesScreen(

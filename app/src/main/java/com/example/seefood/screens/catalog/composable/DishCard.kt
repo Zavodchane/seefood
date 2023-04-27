@@ -20,6 +20,12 @@ import com.example.seefood.DISH_SCREEN
 import com.example.seefood.R
 import com.example.seefood.database.objects.Dish
 
+/**
+ * Карточка отображения блюда для экрана блюд
+ *
+ * @param[dish] объект класса [Dish], карточку которого требуется отобразить
+ * @param[openScreen] функция вызываемая при нажатиии на карточку
+ */
 @Composable
 fun DishCard(
    dish : Dish,

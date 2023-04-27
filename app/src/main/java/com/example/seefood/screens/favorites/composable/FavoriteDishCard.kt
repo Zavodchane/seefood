@@ -23,6 +23,13 @@ import com.example.seefood.R
 import com.example.seefood.common.composable.AreYouSureDialog
 import com.example.seefood.database.objects.Dish
 
+/**
+ * Кароточка отображения блюда для экрана избранного
+ *
+ * @param[dish] объект класса [Dish], карточку которого требуется отобразить
+ * @param[openScreen] функция вызываемая при нажатиии на карточку
+ * @param[unfavorite] функция вызываемая при удалении блюда из избранного
+ */
 @Composable
 fun FavoriteDishCard(
    dish: Dish,

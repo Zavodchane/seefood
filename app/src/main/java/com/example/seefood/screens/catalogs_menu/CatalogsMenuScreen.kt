@@ -33,6 +33,12 @@ import com.example.seefood.R
 import com.example.seefood.database.objects.Catalog
 import com.example.seefood.screens.catalogs_menu.composable.CatalogCard
 
+/**
+ * Экран меню каталогов (UI представление)
+ *
+ * @param[viewModel] модель представления, предоставляется с помощью Hilt
+ * @param[openScreen] функция для передачи карточке каталога для открытия экрана соответствующего каталога
+ */
 @Composable
 fun CatalogsMenuScreen(
    viewModel  : CatalogsMenuViewModel = hiltViewModel(),

@@ -31,6 +31,13 @@ import com.example.seefood.common.util.URIPathHelper
 import com.example.seefood.database.objects.Catalog
 import java.io.File
 
+/**
+ * Карточка отображения каталога для экрана меню каталогов
+ *
+ * @param[catalog] объект класса [Catalog], карточку которого требуется отобразить
+ * @param[openScreen] функция вызываемая при нажатии на карточку
+ * @param[deleteCatalog] функция для удаления каталога из локальной БД
+ */
 @Composable
 fun CatalogCard(
    catalog    : Catalog,

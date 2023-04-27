@@ -10,10 +10,22 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Модель представления экрана камеры
+ *
+ * @constructor
+ * @param[repo] интерфейс для взаимодействия с камерой, передается Hilt
+ */
 @HiltViewModel
 class CameraScreenViewModel @Inject constructor(
    private val repo: CameraService
 ) : ViewModel() {
+   /**
+    * Функция отображения превью камеры
+    *
+    * @param[previewView] представление превью, предоставляется Hilt
+    * @param[lifecycleOwner] владелец жизненного цикла превью, предоаставляется Hilt
+    */
    fun showCameraPreview(
       previewView: PreviewView,
       lifecycleOwner: LifecycleOwner
@@ -26,6 +38,11 @@ class CameraScreenViewModel @Inject constructor(
       }
    }
 
+   /**
+    * Функция получения снимка и сохранения его на устройстве
+    *
+    * @param[context] контекст
+    */
    fun captureAndSave(context: Context){
       viewModelScope.launch {
          repo.captureAndSaveImage(context)

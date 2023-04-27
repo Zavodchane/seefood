@@ -23,6 +23,11 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.example.seefood.R
 
+/**
+ * Экран камеры (UI представление)
+ *
+ * @param[viewModel] модель представления, предоставляется с помощью Hilt
+ */
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraScreen(
@@ -31,9 +36,7 @@ fun CameraScreen(
    val requiredPermissions = permissions()
    val permissionState = rememberMultiplePermissionsState(permissions = requiredPermissions)
 
-   if (!permissionState.allPermissionsGranted) {
-      SideEffect { permissionState.launchMultiplePermissionRequest() }
-   }
+   if (!permissionState.allPermissionsGranted) { SideEffect { permissionState.launchMultiplePermissionRequest() } }
 
    val context        = LocalContext.current
    val lifecycleOwner = LocalLifecycleOwner.current

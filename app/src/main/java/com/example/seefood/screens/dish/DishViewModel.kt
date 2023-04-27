@@ -9,12 +9,32 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Абстракция модели представления экрана блюда
+ */
 interface DishViewModelAbstract {
+   /**
+    * Функция получения блюда по идентификатору
+    *
+    * @param[dishId] идентификатор блюда
+    * @return[Flow] с объектом класса [Dish]
+    */
    fun getRelatedDish(dishId : Int) : Flow<Dish?>
 
+   /**
+    * Функция удаления блюда из каталога
+    *
+    * @param[dish] объект класса [Dish], который нужно удалить из каталога
+    */
    fun removeDishFromCatalog(dish: Dish)
 }
 
+/**
+ * Модель представления экрана блюда
+ *
+ * @constructor
+ * @param[dishRepository] интерфейс для взаимодействия с таблицей блюд локальной БД
+ */
 @HiltViewModel
 class DishViewModel
 @Inject constructor(

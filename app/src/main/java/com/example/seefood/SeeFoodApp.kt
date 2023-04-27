@@ -2,7 +2,6 @@ package com.example.seefood
 
 import android.Manifest
 import android.content.Context
-import android.content.res.Resources
 import android.os.Build
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -11,12 +10,10 @@ import androidx.compose.material.*
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.ReadOnlyComposable
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -38,8 +35,10 @@ import com.example.seefood.screens.dish.DishScreen
 import com.example.seefood.screens.home.HomeScreen
 import com.example.seefood.ui.theme.Background
 import com.example.seefood.ui.theme.SeefoodTheme
-import kotlinx.coroutines.CoroutineScope
 
+/**
+ * Основная Composable функция
+ */
 @Composable
 fun SeeFoodApp(){
    SeefoodTheme {
@@ -59,30 +58,31 @@ fun SeeFoodApp(){
    }
 }
 
+/**
+ * Функция получения состояния приложения
+ *
+ * @param[navController] контроллер навигации
+ * @param[context] контекст
+ */
 @Composable
 fun rememberAppState(
-   scaffoldState: ScaffoldState = rememberScaffoldState(),
    navController: NavHostController = rememberNavController(),
-   resources: Resources = resources(),
    context: Context = context(),
-   coroutineScope: CoroutineScope = rememberCoroutineScope(),
 ) =
-   remember(scaffoldState, navController, resources, context, coroutineScope) {
-      SeeFoodAppState(scaffoldState, navController, resources, context, coroutineScope)
+   remember(navController, context) {
+      SeeFoodAppState(navController, context)
    }
 
-
-@Composable
-@ReadOnlyComposable
-fun resources(): Resources {
-   LocalConfiguration.current
-   return LocalContext.current.resources
-}
-
+/**
+ * Функция получения текущего контекста
+ */
 @Composable
 @ReadOnlyComposable
 fun context(): Context { return LocalContext.current }
 
+/**
+ * Функция получения необходимых для приложения разрешений в зависимости от версии ОС
+ */
 fun permissions(): List<String> {
    return if (Build.VERSION.SDK_INT <= 28) {
       listOf(
@@ -100,6 +100,9 @@ fun permissions(): List<String> {
    }
 }
 
+/**
+ * Composable функция верхней панели приложения
+ */
 @Composable
 fun SeeFoodTopBar(){
    TopAppBar(
@@ -132,6 +135,11 @@ fun SeeFoodTopBar(){
    }
 }
 
+/**
+ * Функция построения навигационного графа
+ *
+ * @param[appState] состояние приложения
+ */
 fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    composable(HOME_SCREEN) {
       HomeScreen(openScreen = { route -> appState.navigate(route) })

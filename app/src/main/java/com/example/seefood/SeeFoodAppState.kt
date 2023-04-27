@@ -1,24 +1,33 @@
 package com.example.seefood
 
 import android.content.Context
-import android.content.res.Resources
-import androidx.compose.material.ScaffoldState
 import androidx.compose.runtime.Stable
 import androidx.navigation.NavHostController
-import kotlinx.coroutines.CoroutineScope
 
+/**
+ * Класс состояния приложения
+ *
+ * @constructor
+ * @param[navController] контроллер навигации
+ * @param[context] контекст
+ */
 @Stable
 class SeeFoodAppState(
-   val scaffoldState: ScaffoldState,
    val navController: NavHostController,
-   private val resources: Resources,
    val context: Context,
-   val coroutineScope: CoroutineScope
 ) {
+   /**
+    * Переход к экрану
+    *
+    * @param[route] путь до экрана
+    */
    fun navigate(route: String) {
       navController.navigate(route) { launchSingleTop = true }
    }
 
+   /**
+    * Переход к предыдущему экрану
+    */
    fun navigateBack(){
       navController.navigateUp()
    }

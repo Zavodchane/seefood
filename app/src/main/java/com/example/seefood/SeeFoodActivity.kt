@@ -6,7 +6,7 @@ import androidx.activity.compose.setContent
 import dagger.hilt.android.AndroidEntryPoint
 
 /**
- * Основное активити
+ * Основное активити приложения
  */
 @AndroidEntryPoint
 class SeeFoodActivity : ComponentActivity()

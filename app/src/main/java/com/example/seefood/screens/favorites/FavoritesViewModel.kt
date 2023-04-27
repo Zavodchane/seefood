@@ -9,11 +9,29 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Абстракция модели представления экрана избранного
+ */
 interface FavoritesViewModelAbstract  {
+   /**
+    * Переменная, содержащая [Flow] со списком всех объектов класса [Dish], включенных в избранное
+    */
    val dishesListFlow: Flow<List<Dish>>
+
+   /**
+    * Функция удаления блюда из избранного
+    *
+    * @param[dish] объект класса [Dish], который нужно удалить из избранного
+    */
    fun unfavoriteDish(dish: Dish)
 }
 
+/**
+ * Модель представления экрана избранного
+ *
+ * @constructor
+ * @param[dishRepository] интерфейс для взинтерфейс для взаимодействия с таблицей блюд локальной БД
+ */
 @HiltViewModel
 class FavoritesViewModel
 @Inject constructor(

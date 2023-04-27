@@ -11,12 +11,37 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
+/**
+ * Абстракция модели представления экрана мню каталогов
+ */
 interface CatalogsMenuViewModelAbstract {
+   /**
+    * Переменная, содержащая [Flow] со списком всех объектов класса [Catalog]
+    */
    val catalogsListFlow: Flow<List<Catalog>>
+
+   /**
+    * Функция добавления каталога в локальную БД
+    *
+    * @param[catalog] объект класса [Catalog], который нужно занести в локальную БД
+    */
    fun addCatalog(catalog: Catalog)
+
+   /**
+    * Функция удаления каталога из локальной БД
+    *
+    * @param[catalog] объект класса [Catalog], который нужно удалить из локальной БД
+    */
    fun deleteCatalog(catalog: Catalog)
 }
 
+/**
+ * Модель представления экрана меню каталогов
+ *
+ * @constructor
+ * @param[catalogRepository] интерфейс для взаимодействия с таблицей каталогов локальной БД
+ * @param[dishRepository] интерфейс для взаимодействия с таблицей блюд локальной БД
+ */
 @HiltViewModel
 class CatalogsMenuViewModel
 @Inject constructor(

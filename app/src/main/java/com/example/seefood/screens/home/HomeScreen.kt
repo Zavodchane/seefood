@@ -8,6 +8,12 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.example.seefood.R.drawable as AppImages
 import com.example.seefood.common.composable.MenuButton
 
+/**
+ * Домашний экран (UI представление)
+ *
+ * @param[viewModel] модель представления, предоставляется с помощью Hilt
+ * @param[openScreen] шаблонная функция для смены экрана, вызывается при нажатии кнопок меню
+ */
 @Composable
 fun HomeScreen(
   openScreen: (String) -> Unit,
@@ -15,7 +21,7 @@ fun HomeScreen(
 ){
    Column(modifier = Modifier.fillMaxSize()) {
       Spacer(modifier = Modifier.weight(0.3f))
-      MenuButton( // Кнопка избранного
+      MenuButton(
          modifier = Modifier
             .align(Alignment.End)
             .fillMaxWidth(0.55f),
@@ -24,7 +30,7 @@ fun HomeScreen(
          onClick = { viewModel.onFavoritesPressed(openScreen) }
       )
       Spacer(modifier = Modifier.weight(0.5f))
-      MenuButton( // Кнопка каталогов
+      MenuButton(
          modifier = Modifier
             .align(Alignment.Start)
             .fillMaxWidth(0.55f),
@@ -33,7 +39,7 @@ fun HomeScreen(
          onClick = { viewModel.onCatalogPressed(openScreen) }
       )
       Spacer(modifier = Modifier.weight(0.9f))
-      MenuButton( // Кнопка камеры
+      MenuButton(
          modifier = Modifier.fillMaxWidth(),
          buttonSkin = AppImages.camera,
          contentDescription = "Camera",

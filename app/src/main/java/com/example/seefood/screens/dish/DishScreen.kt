@@ -33,6 +33,13 @@ import com.example.seefood.database.objects.Dish
 import com.example.seefood.ui.theme.Accent
 import kotlin.math.roundToInt
 
+/**
+ * Экран блюда (UI представление)
+ *
+ * @param[viewModel] модель представления, предоставляется с помощью Hilt
+ * @param[dishId] идентификатор блюда, которое нужно отобразить
+ * @param[onDishDelete] функция которая вызывается при удалении блюда из локальной БД
+ */
 @Composable
 fun DishScreen(
    viewModel: DishViewModel = hiltViewModel(),
