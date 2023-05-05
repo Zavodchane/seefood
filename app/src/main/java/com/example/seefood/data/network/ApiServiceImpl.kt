@@ -6,5 +6,5 @@ class ApiServiceImpl @Inject constructor( private val apiService: ApiService ) {
 
    suspend fun sendFile() = apiService.sendFile()
 
-   suspend fun getClassificationResult() = apiService.getClassificationResult()
+//   suspend fun getClassificationResult() = apiService.getClassificationResult()
 }
