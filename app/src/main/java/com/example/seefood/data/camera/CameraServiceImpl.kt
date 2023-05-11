@@ -19,6 +19,7 @@ import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
 import okhttp3.RequestBody
+import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.*
 
 /**
@@ -106,9 +107,9 @@ class CameraServiceImpl (
    override fun sendToClassifier(context: Context, imageUri: Uri) {
       val contentResolver = context.contentResolver
       val inputStream = contentResolver.openInputStream(imageUri)
-      val requestFile = inputStream?.let { RequestBody.create("image/jpeg".toMediaTypeOrNull(), it.readBytes()) }
+      val requestFile = inputStream?.readBytes()?.toRequestBody("image/jpeg".toMediaTypeOrNull(), 0)
 
-      val body = requestFile?.let { MultipartBody.Part.createFormData("photo", "someimgname", it) }
+      val body = requestFile?.let { MultipartBody.Part.createFormData("photo", "photo", it) }
 
       runBlocking {
          if (body != null) {
