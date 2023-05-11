@@ -72,7 +72,6 @@ class CameraServiceImpl (
                ).show()
 
                sendToClassifier(context, outputFileResults.savedUri!!)
-
             }
 
             override fun onError(exception: ImageCaptureException) {
