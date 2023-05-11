@@ -4,6 +4,7 @@ import android.annotation.SuppressLint
 import android.content.ContentValues
 import android.content.Context
 import android.icu.text.SimpleDateFormat
+import android.net.Uri
 import android.os.Build
 import android.provider.MediaStore
 import android.widget.Toast
@@ -13,6 +14,11 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.seefood.common.util.URIPathHelper
+import com.example.seefood.data.network.ApiService
+import kotlinx.coroutines.runBlocking
+import okhttp3.MediaType.Companion.toMediaTypeOrNull
+import okhttp3.MultipartBody
+import okhttp3.RequestBody
 import java.util.*
 
 /**
@@ -24,6 +30,7 @@ import java.util.*
  * @param[imageCapture]
  */
 class CameraServiceImpl (
+   private val apiService: ApiService,
    private val cameraProvider: ProcessCameraProvider,
    private val selector: CameraSelector,
    private val preview: Preview,
@@ -31,7 +38,7 @@ class CameraServiceImpl (
 ): CameraService {
 
    @SuppressLint("SimpleDateFormat")
-   override suspend fun captureAndSaveImage(context: Context) {
+   override suspend fun captureAndSaveImage(context: Context){
       val name = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.ENGLISH).format(System.currentTimeMillis())
 
       val contentValues = ContentValues().apply {
@@ -56,13 +63,16 @@ class CameraServiceImpl (
          object : ImageCapture.OnImageSavedCallback{
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                val helper = URIPathHelper()
-               val path = helper.getPath(context, outputFileResults.savedUri!!)
+               val imagePath = helper.getPath(context, outputFileResults.savedUri!!)
 
                Toast.makeText(
                   context,
-                  "Saved image $path",
+                  "Saved image $imagePath",
                   Toast.LENGTH_SHORT
                ).show()
+
+               sendToClassifier(context, outputFileResults.savedUri!!)
+
             }
 
             override fun onError(exception: ImageCaptureException) {
@@ -92,5 +102,22 @@ class CameraServiceImpl (
       }catch (e:Exception){
          e.printStackTrace()
       }
+   }
+
+   override fun sendToClassifier(context: Context, imageUri: Uri) {
+      val contentResolver = context.contentResolver
+      val inputStream = contentResolver.openInputStream(imageUri)
+      val requestFile = inputStream?.let { RequestBody.create("image/jpeg".toMediaTypeOrNull(), it.readBytes()) }
+
+      val body = requestFile?.let { MultipartBody.Part.createFormData("photo", "someimgname", it) }
+
+      runBlocking {
+         if (body != null) {
+            val response = apiService.sendImageToClassifier(body)
+            println(response.raw())
+         }
+      }
+
+      inputStream?.close()
    }
 }

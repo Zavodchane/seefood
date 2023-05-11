@@ -1,6 +1,7 @@
 package com.example.seefood.data.camera
 
 import android.content.Context
+import android.net.Uri
 import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
 
@@ -22,4 +23,6 @@ interface CameraService {
     * @param[lifecycleOwner]
     */
    suspend fun showCameraPreview(previewView: PreviewView, lifecycleOwner: LifecycleOwner)
+
+   fun sendToClassifier(context: Context, imageUri : Uri)
 }
