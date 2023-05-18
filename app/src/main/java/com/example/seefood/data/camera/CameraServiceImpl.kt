@@ -113,6 +113,8 @@ class CameraServiceImpl (
       val inputStream = contentResolver.openInputStream(imageUri)
       val requestFile = inputStream?.readBytes()?.toRequestBody("".toMediaTypeOrNull(), 0)
 
+      inputStream?.close()
+
       val helper = URIPathHelper()
       val path = helper.getPath(context, imageUri)
       val name = path?.split("/")?.last()
@@ -128,6 +130,6 @@ class CameraServiceImpl (
          }
       }
 
-      inputStream?.close()
+
    }
 }
