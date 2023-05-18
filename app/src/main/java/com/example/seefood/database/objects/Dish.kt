@@ -13,5 +13,5 @@ data class Dish (
    @ColumnInfo(name = "is_favorite")                 val isFavorite   : Boolean = false,
 
    @PrimaryKey (autoGenerate = true)
-   val id : Int = -1
+   val id : Int = 0
 )

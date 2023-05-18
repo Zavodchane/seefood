@@ -8,6 +8,7 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import com.example.seefood.data.camera.CameraService
 import com.example.seefood.data.camera.CameraServiceImpl
 import com.example.seefood.data.network.ApiService
+import com.example.seefood.database.repos.DishRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -97,6 +98,7 @@ object SeeFoodCameraModule {
    @Provides
    @Singleton
    fun provideCustomCameraRepo(
+      dishRepository: DishRepository,
       cameraProvider: ProcessCameraProvider,
       selector: CameraSelector,
       imageCapture: ImageCapture,
@@ -104,6 +106,7 @@ object SeeFoodCameraModule {
       apiService: ApiService
    ): CameraService {
       return CameraServiceImpl (
+         dishRepository,
          apiService,
          cameraProvider,
          selector,

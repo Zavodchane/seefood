@@ -6,6 +6,7 @@ const val HOME_SCREEN   = "home"
 const val CAMERA_SCREEN = "camera"
 /** Путь к экрану c результатом классификации */
 const val RESULT_SCREEN = "result"
+const val RESULT_SCREEN_ARGS = "/{dishId}"
 
 /** Путь к экрану меню каталогов */
 const val CATALOG_MENU_SCREEN = "catalog_menu"

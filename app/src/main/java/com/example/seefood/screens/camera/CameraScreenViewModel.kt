@@ -5,6 +5,7 @@ import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.seefood.SeeFoodAppState
 import com.example.seefood.data.camera.CameraService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
@@ -43,9 +44,9 @@ class CameraScreenViewModel @Inject constructor(
     *
     * @param[context] контекст
     */
-   fun captureAndSave(context: Context){
+   fun captureAndSave(context: Context, appState: SeeFoodAppState){
       viewModelScope.launch {
-         repo.captureAndSaveImage(context)
+         repo.captureAndSaveImage(context, appState)
       }
    }
 }

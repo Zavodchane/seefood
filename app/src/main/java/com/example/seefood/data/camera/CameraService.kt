@@ -4,6 +4,7 @@ import android.content.Context
 import android.net.Uri
 import androidx.camera.view.PreviewView
 import androidx.lifecycle.LifecycleOwner
+import com.example.seefood.SeeFoodAppState
 
 /**
  * Интерфейс для доступа к функциям камеры
@@ -14,7 +15,7 @@ interface CameraService {
     *
     * @param[context] контекст
     */
-   suspend fun captureAndSaveImage(context: Context)
+   suspend fun captureAndSaveImage(context: Context, appState: SeeFoodAppState)
 
    /**
     * Функция отображения окна предпросмотра камеры
@@ -24,5 +25,5 @@ interface CameraService {
     */
    suspend fun showCameraPreview(previewView: PreviewView, lifecycleOwner: LifecycleOwner)
 
-   fun sendToClassifier(context: Context, imageUri : Uri)
+   fun sendToClassifier(context: Context, imageUri : Uri, appState: SeeFoodAppState)
 }

@@ -17,7 +17,7 @@ interface DishDao {
     * @param[dish] объект класса [Dish] который нужно добавить в БД
     */
    @Upsert
-   suspend fun upsertDish(dish: Dish)
+   suspend fun upsertDish(dish: Dish) : Long?
 
    /**
     * Удаление записи в таблице блюд по идентификаторов

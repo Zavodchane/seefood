@@ -22,6 +22,7 @@ import com.example.seefood.permissions
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.example.seefood.R
+import com.example.seefood.SeeFoodAppState
 
 /**
  * Экран камеры (UI представление)
@@ -31,7 +32,8 @@ import com.example.seefood.R
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CameraScreen(
-   viewModel: CameraScreenViewModel = hiltViewModel()
+   viewModel: CameraScreenViewModel = hiltViewModel(),
+   appState : SeeFoodAppState
 ) {
    val requiredPermissions = permissions()
    val permissionState = rememberMultiplePermissionsState(permissions = requiredPermissions)
@@ -78,7 +80,7 @@ fun CameraScreen(
       ){
          IconButton(onClick = {
             if (permissionState.allPermissionsGranted){
-               viewModel.captureAndSave(context)
+               viewModel.captureAndSave(context, appState)
             }
             else{
                Toast.makeText(

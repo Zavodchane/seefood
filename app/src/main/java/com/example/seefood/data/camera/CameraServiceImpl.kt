@@ -13,9 +13,13 @@ import androidx.camera.lifecycle.ProcessCameraProvider
 import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
+import com.example.seefood.RESULT_SCREEN
+import com.example.seefood.SeeFoodAppState
 import com.example.seefood.common.util.URIPathHelper
 import com.example.seefood.data.models.ClassificationResult
 import com.example.seefood.data.network.ApiService
+import com.example.seefood.database.objects.Dish
+import com.example.seefood.database.repos.DishRepository
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
@@ -30,7 +34,8 @@ import java.util.*
  * @param[preview]
  * @param[imageCapture]
  */
-class CameraServiceImpl (
+class CameraServiceImpl(
+   private val dishRepository: DishRepository,
    private val apiService: ApiService,
    private val cameraProvider: ProcessCameraProvider,
    private val selector: CameraSelector,
@@ -41,7 +46,7 @@ class CameraServiceImpl (
    private var imgPath : String = ""
 
    @SuppressLint("SimpleDateFormat")
-   override suspend fun captureAndSaveImage(context: Context){
+   override suspend fun captureAndSaveImage(context: Context, appState: SeeFoodAppState){
       val name = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.ENGLISH).format(System.currentTimeMillis())
 
       val contentValues = ContentValues().apply {
@@ -76,7 +81,7 @@ class CameraServiceImpl (
                   Toast.LENGTH_SHORT
                ).show()
 
-               sendToClassifier(context, outputFileResults.savedUri!!)
+               sendToClassifier(context, outputFileResults.savedUri!!, appState)
             }
 
             override fun onError(exception: ImageCaptureException) {
@@ -108,7 +113,7 @@ class CameraServiceImpl (
       }
    }
 
-   override fun sendToClassifier(context: Context, imageUri: Uri) {
+   override fun sendToClassifier(context: Context, imageUri: Uri, appState: SeeFoodAppState) {
       val contentResolver = context.contentResolver
       val inputStream = contentResolver.openInputStream(imageUri)
       val requestFile = inputStream?.readBytes()?.toRequestBody("".toMediaTypeOrNull(), 0)
@@ -124,9 +129,17 @@ class CameraServiceImpl (
       runBlocking {
          if (body != null) {
             val response : ClassificationResult? = apiService.sendImageToClassifier(body).body()
-            println(response?.name_dish)
-            println(response?.recipe_dish)
-            println(imgPath)
+
+            val newDish = Dish(
+               name         = response?.name_dish!!,
+               recipe       = response.recipe_dish!!,
+               imgLocalPath = imgPath
+            )
+            println(newDish)
+
+            val newDishId = dishRepository.upsertDish(newDish)?.toInt()
+            appState.navigate("$RESULT_SCREEN/$newDishId")
+            println(newDishId)
          }
       }
    }
