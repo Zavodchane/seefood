@@ -11,8 +11,10 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
 /**
@@ -27,9 +29,15 @@ object SeeFoodAppModule {
     * Функция предоставляющая базовую ссылку для обращения через Retrofit
     */
    @Provides
-   fun baseUrl() = ""
+   fun baseUrl() = "" // НЕ КОММИТИТЬ С ССЫЛКОЙ!
 
-    // Это пока что лучше не трогать, потому что конвертер может поменяться как и базовая ссылка
+   @Provides
+   @Singleton
+   fun provideOkHttpClient() : OkHttpClient = OkHttpClient.Builder()
+      .readTimeout(30, TimeUnit.SECONDS)
+      .connectTimeout(30, TimeUnit.SECONDS)
+      .build()
+
    /**
     * Функция - провайдер Retrofit интерфейса для обращения к API SeeFood
     *
@@ -37,12 +45,12 @@ object SeeFoodAppModule {
     */
     @Provides
     @Singleton
-    fun provideRetrofit(baseUrl: String) : ApiService =
-        Retrofit.Builder()
-            .baseUrl(baseUrl)
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-            .create(ApiService::class.java)
+    fun provideRetrofit(baseUrl: String, okHttpClient: OkHttpClient) : ApiService = Retrofit.Builder()
+       .baseUrl(baseUrl)
+       .addConverterFactory(GsonConverterFactory.create())
+       .client(okHttpClient)
+       .build()
+       .create(ApiService::class.java)
 
 
    /**

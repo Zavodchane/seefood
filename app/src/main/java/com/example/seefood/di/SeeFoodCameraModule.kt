@@ -7,6 +7,7 @@ import androidx.camera.core.ImageCapture.FLASH_MODE_AUTO
 import androidx.camera.lifecycle.ProcessCameraProvider
 import com.example.seefood.data.camera.CameraService
 import com.example.seefood.data.camera.CameraServiceImpl
+import com.example.seefood.data.network.ApiService
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -99,9 +100,11 @@ object SeeFoodCameraModule {
       cameraProvider: ProcessCameraProvider,
       selector: CameraSelector,
       imageCapture: ImageCapture,
-      preview: Preview
+      preview: Preview,
+      apiService: ApiService
    ): CameraService {
       return CameraServiceImpl (
+         apiService,
          cameraProvider,
          selector,
          preview,
