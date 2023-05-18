@@ -14,11 +14,11 @@ import androidx.camera.view.PreviewView
 import androidx.core.content.ContextCompat
 import androidx.lifecycle.LifecycleOwner
 import com.example.seefood.common.util.URIPathHelper
+import com.example.seefood.data.models.ClassificationResult
 import com.example.seefood.data.network.ApiService
 import kotlinx.coroutines.runBlocking
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.MultipartBody
-import okhttp3.RequestBody
 import okhttp3.RequestBody.Companion.toRequestBody
 import java.util.*
 
@@ -107,14 +107,21 @@ class CameraServiceImpl (
    override fun sendToClassifier(context: Context, imageUri: Uri) {
       val contentResolver = context.contentResolver
       val inputStream = contentResolver.openInputStream(imageUri)
-      val requestFile = inputStream?.readBytes()?.toRequestBody("image/jpeg".toMediaTypeOrNull(), 0)
+      val requestFile = inputStream?.readBytes()?.toRequestBody("".toMediaTypeOrNull(), 0)
 
-      val body = requestFile?.let { MultipartBody.Part.createFormData("photo", "photo", it) }
+      val helper = URIPathHelper()
+      val path = helper.getPath(context, imageUri)
+      val name = path?.split("/")?.last()
+      println(name)
+
+//      val body = requestFile?.let { MultipartBody.Part.createFormData("photo", "photo", it) }
+      val body = requestFile?.let { MultipartBody.Part.createFormData("photo", name.toString(), it) }
 
       runBlocking {
          if (body != null) {
-            val response = apiService.sendImageToClassifier(body)
-            println(response.raw())
+            val response : ClassificationResult? = apiService.sendImageToClassifier(body).body()
+            println(response?.name_dish)
+            println(response?.recipe_dish)
          }
       }
 
