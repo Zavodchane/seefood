@@ -129,7 +129,5 @@ class CameraServiceImpl (
             println(imgPath)
          }
       }
-
-
    }
 }
