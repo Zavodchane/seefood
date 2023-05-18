@@ -38,6 +38,8 @@ class CameraServiceImpl (
    private val imageCapture: ImageCapture
 ): CameraService {
 
+   private var imgPath : String = ""
+
    @SuppressLint("SimpleDateFormat")
    override suspend fun captureAndSaveImage(context: Context){
       val name = SimpleDateFormat("yyyy-MM-dd-HH-mm-ss-SSS", Locale.ENGLISH).format(System.currentTimeMillis())
@@ -65,6 +67,8 @@ class CameraServiceImpl (
             override fun onImageSaved(outputFileResults: ImageCapture.OutputFileResults) {
                val helper = URIPathHelper()
                val imagePath = helper.getPath(context, outputFileResults.savedUri!!)
+
+               imgPath = imagePath!!
 
                Toast.makeText(
                   context,
@@ -112,9 +116,7 @@ class CameraServiceImpl (
       val helper = URIPathHelper()
       val path = helper.getPath(context, imageUri)
       val name = path?.split("/")?.last()
-      println(name)
 
-//      val body = requestFile?.let { MultipartBody.Part.createFormData("photo", "photo", it) }
       val body = requestFile?.let { MultipartBody.Part.createFormData("photo", name.toString(), it) }
 
       runBlocking {
@@ -122,6 +124,7 @@ class CameraServiceImpl (
             val response : ClassificationResult? = apiService.sendImageToClassifier(body).body()
             println(response?.name_dish)
             println(response?.recipe_dish)
+            println(imgPath)
          }
       }
 
