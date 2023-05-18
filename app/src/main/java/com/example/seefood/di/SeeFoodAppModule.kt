@@ -29,7 +29,7 @@ object SeeFoodAppModule {
     * Функция предоставляющая базовую ссылку для обращения через Retrofit
     */
    @Provides
-   fun baseUrl() = "" // НЕ КОММИТИТЬ С ССЫЛКОЙ!
+   fun baseUrl() = "" // TODO: Добавить ссылку при запуске!!!
 
    @Provides
    @Singleton
