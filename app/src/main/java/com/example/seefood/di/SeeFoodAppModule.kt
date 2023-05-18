@@ -2,6 +2,7 @@ package com.example.seefood.di
 
 import android.app.Application
 import com.example.seefood.data.network.ApiService
+import com.example.seefood.data.network.PastebinService
 import com.example.seefood.database.SeeFoodDatabase
 import com.example.seefood.database.dao.CatalogDao
 import com.example.seefood.database.dao.DishDao
@@ -11,9 +12,11 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import kotlinx.coroutines.runBlocking
 import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import retrofit2.converter.scalars.ScalarsConverterFactory
 import java.util.concurrent.TimeUnit
 import javax.inject.Singleton
 
@@ -24,12 +27,21 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 object SeeFoodAppModule {
 
-   // TODO: Добавить базовую ссылку, возможно только после создания API (Влад момент :) )
+   @Provides
+   @Singleton
+   fun provideNgrokRetrofit() : PastebinService = Retrofit.Builder()
+      .baseUrl("https://pastebin.com")
+      .addConverterFactory(ScalarsConverterFactory.create())
+      .build()
+      .create(PastebinService::class.java)
+
    /**
     * Функция предоставляющая базовую ссылку для обращения через Retrofit
     */
    @Provides
-   fun baseUrl() = "" // TODO: Добавить ссылку при запуске!!!
+   fun baseUrl(pastebinService: PastebinService) =  runBlocking {
+      pastebinService.getNgrokLink().body()!!
+   }
 
    @Provides
    @Singleton
