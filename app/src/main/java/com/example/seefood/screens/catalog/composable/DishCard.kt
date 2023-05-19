@@ -17,8 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
 import com.example.seefood.DISH_SCREEN
-import com.example.seefood.R
 import com.example.seefood.database.objects.Dish
+import java.io.File
 
 /**
  * Карточка отображения блюда для экрана блюд
@@ -42,15 +42,13 @@ fun DishCard(
          },
       horizontalAlignment = Alignment.CenterHorizontally
    ) {
-//      val helper = URIPathHelper()
-//      val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(dish.imgLocalPath)).toString())
 
       AsyncImage(
          modifier = Modifier
             .width(universal)
             .clip(RoundedCornerShape(10.dp))
             .height(universal),
-         model = R.drawable.food_mock, // imageFile // TODO: Потом переделать под картинку из пути
+         model = File(dish.imgLocalPath),
          contentDescription = dish.name,
          contentScale = ContentScale.Crop
       )
