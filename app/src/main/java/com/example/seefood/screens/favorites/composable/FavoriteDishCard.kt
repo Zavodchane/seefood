@@ -22,6 +22,7 @@ import com.example.seefood.DISH_SCREEN
 import com.example.seefood.R
 import com.example.seefood.common.composable.AreYouSureDialog
 import com.example.seefood.database.objects.Dish
+import java.io.File
 
 /**
  * Кароточка отображения блюда для экрана избранного
@@ -44,9 +45,6 @@ fun FavoriteDishCard(
          .width(universal),
       horizontalAlignment = Alignment.CenterHorizontally
    ) {
-//      val helper = URIPathHelper()
-//      val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(dish.imgLocalPath)).toString())
-
       Box(modifier = Modifier){
          var isDialogDisplayed by remember { mutableStateOf(false) }
 
@@ -58,7 +56,7 @@ fun FavoriteDishCard(
                .clickable {
                   openScreen("$DISH_SCREEN/${dish.id}")
                },
-            model = R.drawable.food_mock, // imageFile // TODO: Заменить потом на нормальную картинку из пути
+            model = File(dish.imgLocalPath),
             contentDescription = dish.name,
             contentScale = ContentScale.Crop
          )
