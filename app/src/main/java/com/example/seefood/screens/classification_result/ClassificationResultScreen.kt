@@ -1,15 +1,18 @@
 package com.example.seefood.screens.classification_result
 
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
 import androidx.compose.foundation.gestures.draggable
 import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
@@ -24,6 +27,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.seefood.R
 import com.example.seefood.database.objects.Dish
 import com.example.seefood.ui.theme.Accent
 import java.io.File
@@ -46,9 +50,9 @@ fun ClassificationResultScreen(
 
    var imageSize by remember { mutableStateOf(Size.Zero) }
 
-   Box(
-      modifier = Modifier.background(color = Color.White)
-   ) {
+   val universal = 100.dp
+
+   Box() {
       AsyncImage(
          modifier = Modifier
             .fillMaxWidth()
@@ -57,6 +61,38 @@ fun ClassificationResultScreen(
          model = File(relatedDish.value?.imgLocalPath!!),
          contentDescription = relatedDish.value?.name,
          contentScale = ContentScale.Crop
+      )
+
+      AsyncImage(
+         modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .offset(x = -universal / 12f, y = -universal / 2f)
+            .clip(CircleShape)
+            .background(Color.Black)
+            .padding(10.dp)
+            .clickable { /*TODO*/ }
+            .height(universal / 3f)
+            .width(universal / 3f),
+         model = R.drawable.add_to_catalog,
+         contentDescription = "Убрать из избранного"
+      )
+
+      var isFavorite by remember{ mutableStateOf(false) }
+      AsyncImage(
+         modifier = Modifier
+            .align(Alignment.BottomEnd)
+            .offset(x = -universal / 12f, y = -universal / 12f)
+            .clip(CircleShape)
+            .background(Color.Black)
+            .padding(10.dp)
+            .clickable {
+               isFavorite = !isFavorite
+               viewModel.changeDishFavoritesState(dish = relatedDish.value!!, isFavorite)
+            }
+            .height(universal / 3f)
+            .width(universal / 3f),
+         model = if (isFavorite) R.drawable.heart else R.drawable.empty_heart,
+         contentDescription = "Избранное"
       )
    }
 

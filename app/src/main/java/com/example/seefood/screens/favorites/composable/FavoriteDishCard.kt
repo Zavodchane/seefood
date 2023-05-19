@@ -37,7 +37,7 @@ fun FavoriteDishCard(
    openScreen : (String) -> Unit,
    unfavorite : () -> Unit
 ) {
-   val universal = 100.dp // TODO:  Потом добавить в константы и изменить подобно этому DishCard
+   val universal = 100.dp
 
    Column(
       modifier = Modifier

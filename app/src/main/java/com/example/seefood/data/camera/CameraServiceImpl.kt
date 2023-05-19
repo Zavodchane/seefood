@@ -124,6 +124,7 @@ class CameraServiceImpl(
       val path = helper.getPath(context, imageUri)
       val name = path?.split("/")?.last()
 
+      println(path)
       val body = requestFile?.let { MultipartBody.Part.createFormData("photo", name.toString(), it) }
 
       runBlocking {
