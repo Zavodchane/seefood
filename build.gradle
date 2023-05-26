@@ -6,7 +6,7 @@ buildscript {
         retrofit_version = '2.9.0'
         room_version = '2.5.1'
         accompanist_version = '0.28.0'
-        camera_version = '1.2.2'
+        camera_version = '1.2.3'
         dokka_version = '1.8.10'
     }
 }

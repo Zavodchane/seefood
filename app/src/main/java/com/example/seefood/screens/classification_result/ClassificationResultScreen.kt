@@ -66,15 +66,17 @@ fun ClassificationResultScreen(
       AsyncImage(
          modifier = Modifier
             .align(Alignment.BottomEnd)
-            .offset(x = -universal / 12f, y = -universal / 2f)
+            .offset(x = -universal / 12f, y = -universal + universal/4f)
             .clip(CircleShape)
             .background(Color.Black)
             .padding(10.dp)
-            .clickable { /*TODO*/ }
+            .clickable {
+
+            }
             .height(universal / 3f)
             .width(universal / 3f),
          model = R.drawable.add_to_catalog,
-         contentDescription = "Убрать из избранного"
+         contentDescription = "Каталоги"
       )
 
       var isFavorite by remember{ mutableStateOf(false) }
