@@ -8,6 +8,7 @@ import androidx.compose.foundation.gestures.rememberDraggableState
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material.AlertDialog
 import androidx.compose.material.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -25,14 +26,18 @@ import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
+import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
 import com.example.seefood.R
 import com.example.seefood.database.objects.Dish
+import com.example.seefood.screens.classification_result.composable.CatalogDialogCard
 import com.example.seefood.ui.theme.Accent
+import com.example.seefood.ui.theme.Background
 import java.io.File
 import kotlin.math.roundToInt
 
+@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun ClassificationResultScreen(
    viewModel: ClassificationResultViewModel = hiltViewModel(),
@@ -52,6 +57,8 @@ fun ClassificationResultScreen(
 
    val universal = 100.dp
 
+   var isCatalogsDialogShowed by remember { mutableStateOf(false) }
+
    Box() {
       AsyncImage(
          modifier = Modifier
@@ -66,13 +73,11 @@ fun ClassificationResultScreen(
       AsyncImage(
          modifier = Modifier
             .align(Alignment.BottomEnd)
-            .offset(x = -universal / 12f, y = -universal + universal/4f)
+            .offset(x = -universal / 12f, y = -universal + universal / 4f)
             .clip(CircleShape)
             .background(Color.Black)
             .padding(10.dp)
-            .clickable {
-
-            }
+            .clickable { isCatalogsDialogShowed = true }
             .height(universal / 3f)
             .width(universal / 3f),
          model = R.drawable.add_to_catalog,
@@ -95,6 +100,35 @@ fun ClassificationResultScreen(
             .width(universal / 3f),
          model = if (isFavorite) R.drawable.heart else R.drawable.empty_heart,
          contentDescription = "Избранное"
+      )
+   }
+
+   if (isCatalogsDialogShowed) {
+      AlertDialog(
+         properties = DialogProperties(usePlatformDefaultWidth = false),
+         onDismissRequest = { isCatalogsDialogShowed = false },
+         backgroundColor = Background,
+         contentColor = Color.White,
+         buttons = {
+            val catalogsListState = viewModel.catalogsListFlow.collectAsState(initial = listOf())
+
+            FlowRow(
+               modifier = Modifier.fillMaxSize(),
+               horizontalArrangement = Arrangement.SpaceBetween
+            ) {
+               catalogsListState.value.forEach { catalog ->
+                  CatalogDialogCard(
+                     catalog = catalog,
+                     action = {
+                        viewModel.changeDishCatalog(
+                           dish = relatedDish.value!!,
+                           catalogName = catalog.name)
+                        isCatalogsDialogShowed = false
+                     }
+                  )
+               }
+            }
+         }
       )
    }
 

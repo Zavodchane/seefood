@@ -3,6 +3,7 @@ package com.example.seefood
 import android.Manifest
 import android.content.Context
 import android.os.Build
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -168,6 +169,7 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
    ) {
       val dishId = it.arguments?.getInt("dishId")!!
       ClassificationResultScreen(dishId = dishId)
+      BackHandler(true) { appState.navigate(HOME_SCREEN) }
    }
 
    composable(

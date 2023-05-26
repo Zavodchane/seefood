@@ -28,9 +28,9 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.unit.toSize
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
-import com.example.seefood.R
 import com.example.seefood.database.objects.Dish
 import com.example.seefood.ui.theme.Accent
+import java.io.File
 import kotlin.math.roundToInt
 
 /**
@@ -58,9 +58,6 @@ fun DishScreen(
 
    var imageSize by remember { mutableStateOf(Size.Zero) }
 
-//   val helper    = URIPathHelper()
-//   val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(relatedDish.value.imgLocalPath)).toString())
-
    Box(
       modifier = Modifier.background(color = Color.White)
    ) {
@@ -69,7 +66,7 @@ fun DishScreen(
             .fillMaxWidth()
             .onGloballyPositioned { coordinates -> imageSize = coordinates.size.toSize() }
             .height(max),
-         model = R.drawable.food_mock, // imageFile // TODO: Заменить заглушку на нормальное фото блюда из пути
+         model = File(relatedDish.value!!.imgLocalPath),
          contentDescription = relatedDish.value?.name,
          contentScale = ContentScale.Crop
       )

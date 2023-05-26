@@ -2,6 +2,7 @@ package com.example.seefood.screens.classification_result
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.seefood.database.objects.Catalog
 import com.example.seefood.database.objects.Dish
 import com.example.seefood.database.repos.CatalogRepository
 import com.example.seefood.database.repos.DishRepository
@@ -11,6 +12,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 interface ClassificationResultViewModelAbstract {
+   val catalogsListFlow: Flow<List<Catalog>>
    fun getRelatedDish(dishId : Int) : Flow<Dish?>
    fun changeDishFavoritesState(dish : Dish, favoriteState: Boolean)
    fun changeDishCatalog(dish: Dish, catalogName: String)
@@ -22,6 +24,10 @@ class ClassificationResultViewModel
    private val dishRepository: DishRepository,
    private val catalogRepository: CatalogRepository
 ) : ViewModel(), ClassificationResultViewModelAbstract {
+
+   override val catalogsListFlow: Flow<List<Catalog>>
+      get() = catalogRepository.getAllCatalogs()
+
    override fun getRelatedDish(dishId: Int): Flow<Dish?> {
       return dishRepository.getDishById(dishId)
    }
@@ -41,6 +47,17 @@ class ClassificationResultViewModel
    }
 
    override fun changeDishCatalog(dish: Dish, catalogName: String) {
-      TODO("Not yet implemented")
+      viewModelScope.launch {
+         dishRepository.upsertDish(
+            Dish (
+               name = dish.name,
+               recipe = dish.recipe,
+               imgLocalPath = dish.imgLocalPath,
+               catalog = catalogName,
+               isFavorite = dish.isFavorite,
+               id = dish.id
+            )
+         )
+      }
    }
 }
