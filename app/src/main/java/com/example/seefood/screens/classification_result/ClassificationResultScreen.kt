@@ -22,6 +22,7 @@ import androidx.compose.ui.platform.LocalConfiguration
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.IntOffset
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -109,6 +110,13 @@ fun ClassificationResultScreen(
          onDismissRequest = { isCatalogsDialogShowed = false },
          backgroundColor = Background,
          contentColor = Color.White,
+         title = {
+            Text(
+               modifier = Modifier.fillMaxWidth(),
+               text = "Выберите каталог",
+               textAlign = TextAlign.Center
+            )
+         },
          buttons = {
             val catalogsListState = viewModel.catalogsListFlow.collectAsState(initial = listOf())
 
