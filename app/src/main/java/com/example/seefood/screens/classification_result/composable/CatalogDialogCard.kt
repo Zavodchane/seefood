@@ -1,5 +1,6 @@
 package com.example.seefood.screens.classification_result.composable
 
+import android.net.Uri
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -10,12 +11,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.AsyncImage
+import com.example.seefood.common.util.URIPathHelper
 import com.example.seefood.database.objects.Catalog
 import java.io.File
 
@@ -25,6 +28,9 @@ fun CatalogDialogCard(
    action: () -> Unit
 ){
    val universal = 100.dp
+
+   val helper = URIPathHelper()
+   val imageFile = File(helper.getPath(LocalContext.current, Uri.parse(catalog.thumbnailLocalPath)).toString())
 
    Column(
       modifier = Modifier
@@ -42,7 +48,7 @@ fun CatalogDialogCard(
                .clickable {
                   action()
                },
-            model = File(catalog.thumbnailLocalPath),
+            model = imageFile,
             contentDescription = catalog.name,
             contentScale = ContentScale.Crop
          )

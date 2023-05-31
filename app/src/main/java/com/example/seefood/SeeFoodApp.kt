@@ -3,7 +3,6 @@ package com.example.seefood
 import android.Manifest
 import android.content.Context
 import android.os.Build
-import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -168,16 +167,19 @@ fun NavGraphBuilder.seeFoodGraph(appState: SeeFoodAppState){
       arguments = listOf(navArgument(name = "dishId"){ type = NavType.IntType })
    ) {
       val dishId = it.arguments?.getInt("dishId")!!
-      ClassificationResultScreen(dishId = dishId)
-      BackHandler(true) { appState.navigate(HOME_SCREEN) }
+      ClassificationResultScreen(dishId = dishId, openScreen = { route -> appState.navigate(route) })
    }
 
    composable(
       "$DISH_SCREEN$DISH_SCREEN_ARGS",
-      arguments = listOf(navArgument(name = "dishId"){ type = NavType.IntType })
+      arguments = listOf(
+         navArgument(name = "dishId"){ type = NavType.IntType },
+         navArgument(name = "isDishFavorite"){ type = NavType.BoolType }
+      )
    ) {
       val dishId = it.arguments?.getInt("dishId")!!
-      DishScreen(dishId = dishId, onDishDelete = { appState.navigateBack() })
+      val isDishFavorite = it.arguments?.getBoolean("isDishFavorite")!!
+      DishScreen(dishId = dishId, isDishFavorite = isDishFavorite)
    }
 
    composable(FAVORITES_SCREEN) {

@@ -1,5 +1,6 @@
 package com.example.seefood.screens.classification_result
 
+import androidx.activity.compose.BackHandler
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.gestures.Orientation
@@ -30,6 +31,7 @@ import androidx.compose.ui.unit.toSize
 import androidx.compose.ui.window.DialogProperties
 import androidx.hilt.navigation.compose.hiltViewModel
 import coil.compose.AsyncImage
+import com.example.seefood.HOME_SCREEN
 import com.example.seefood.R
 import com.example.seefood.database.objects.Dish
 import com.example.seefood.screens.classification_result.composable.CatalogDialogCard
@@ -42,7 +44,8 @@ import kotlin.math.roundToInt
 @Composable
 fun ClassificationResultScreen(
    viewModel: ClassificationResultViewModel = hiltViewModel(),
-   dishId   : Int
+   dishId   : Int,
+   openScreen : (String) -> Unit
 ){
    val relatedDish = viewModel.getRelatedDish(dishId = dishId).collectAsState(initial = Dish())
 
@@ -195,5 +198,12 @@ fun ClassificationResultScreen(
             }
          }
       }
+   }
+
+   BackHandler(true) {
+      if ((!relatedDish.value!!.isFavorite) && (relatedDish.value!!.catalog == "")){
+         viewModel.removeDish(relatedDish.value!!)
+      }
+      openScreen(HOME_SCREEN)
    }
 }

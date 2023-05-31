@@ -54,7 +54,7 @@ fun FavoriteDishCard(
                .width(universal)
                .height(universal)
                .clickable {
-                  openScreen("$DISH_SCREEN/${dish.id}")
+                  openScreen("$DISH_SCREEN/${dish.id}/${dish.isFavorite}")
                },
             model = File(dish.imgLocalPath),
             contentDescription = dish.name,

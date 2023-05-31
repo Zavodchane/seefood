@@ -2,7 +2,9 @@ package com.example.seefood.screens.dish
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.example.seefood.database.objects.Catalog
 import com.example.seefood.database.objects.Dish
+import com.example.seefood.database.repos.CatalogRepository
 import com.example.seefood.database.repos.DishRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.Flow
@@ -20,6 +22,7 @@ interface DishViewModelAbstract {
     * @return[Flow] с объектом класса [Dish]
     */
    fun getRelatedDish(dishId : Int) : Flow<Dish?>
+   val catalogsListFlow : Flow<List<Catalog>>
 
    /**
     * Функция удаления блюда из каталога
@@ -27,6 +30,8 @@ interface DishViewModelAbstract {
     * @param[dish] объект класса [Dish], который нужно удалить из каталога
     */
    fun removeDishFromCatalog(dish: Dish)
+   fun changeDishFavoritesState(dish: Dish, favoriteState: Boolean)
+   fun changeDishCatalog(dish: Dish, catalogName: String)
 }
 
 /**
@@ -39,9 +44,28 @@ interface DishViewModelAbstract {
 class DishViewModel
 @Inject constructor(
    private val dishRepository: DishRepository,
+   private val catalogRepository: CatalogRepository
 ) : ViewModel(), DishViewModelAbstract {
    override fun getRelatedDish(dishId: Int): Flow<Dish?> {
       return dishRepository.getDishById(dishId)
+   }
+
+   override val catalogsListFlow: Flow<List<Catalog>>
+      get() = catalogRepository.getAllCatalogs()
+
+   override fun changeDishFavoritesState(dish: Dish, favoriteState : Boolean) {
+      viewModelScope.launch {
+         dishRepository.upsertDish(
+            Dish(
+               name = dish.name,
+               recipe = dish.recipe,
+               imgLocalPath = dish.imgLocalPath,
+               catalog = dish.catalog,
+               isFavorite = favoriteState,
+               id = dish.id,
+            )
+         )
+      }
    }
 
    override fun removeDishFromCatalog(dish: Dish) {
@@ -62,6 +86,21 @@ class DishViewModel
          else {
             dishRepository.deleteDishById(dish.id)
          }
+      }
+   }
+
+   override fun changeDishCatalog(dish: Dish, catalogName: String) {
+      viewModelScope.launch {
+         dishRepository.upsertDish(
+            Dish (
+               name = dish.name,
+               recipe = dish.recipe,
+               imgLocalPath = dish.imgLocalPath,
+               catalog = catalogName,
+               isFavorite = dish.isFavorite,
+               id = dish.id
+            )
+         )
       }
    }
 }

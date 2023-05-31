@@ -38,7 +38,7 @@ fun DishCard(
          .padding(15.dp)
          .width(universal)
          .clickable {
-            openScreen("$DISH_SCREEN/${dish.id}")
+            openScreen("$DISH_SCREEN/${dish.id}/${dish.isFavorite}")
          },
       horizontalAlignment = Alignment.CenterHorizontally
    ) {

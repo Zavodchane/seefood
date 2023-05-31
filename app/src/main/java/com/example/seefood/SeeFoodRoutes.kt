@@ -18,7 +18,7 @@ const val CATALOG_SCREEN_ARGS = "/{catalogName}"
 /** Путь к экрану блюда */
 const val DISH_SCREEN         = "dish"
 /** Константа аргументов для перехода к экрану блюда */
-const val DISH_SCREEN_ARGS    = "/{dishId}"
+const val DISH_SCREEN_ARGS    = "/{dishId}/{isDishFavorite}"
 
 /** Путь к экрану избранного */
 const val FAVORITES_SCREEN    = "favorites"

@@ -16,6 +16,7 @@ interface ClassificationResultViewModelAbstract {
    fun getRelatedDish(dishId : Int) : Flow<Dish?>
    fun changeDishFavoritesState(dish : Dish, favoriteState: Boolean)
    fun changeDishCatalog(dish: Dish, catalogName: String)
+   fun removeDish(dish: Dish)
 }
 
 @HiltViewModel
@@ -58,6 +59,12 @@ class ClassificationResultViewModel
                id = dish.id
             )
          )
+      }
+   }
+
+   override fun removeDish(dish: Dish) {
+      viewModelScope.launch {
+         dishRepository.deleteDishById(dish.id)
       }
    }
 }
