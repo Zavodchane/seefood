@@ -51,7 +51,7 @@ interface DishDao {
     *
     * @return[Flow] объект со списком объектов класса [Dish]
     */
-   @Query("SELECT * FROM dishes WHERE is_favorite = TRUE")
+   @Query("SELECT * FROM dishes WHERE is_favorite = 1")
    fun getFavoriteDishes() : Flow<List<Dish>>
 
    /**
